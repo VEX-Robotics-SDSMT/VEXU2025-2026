@@ -6,3 +6,7 @@ Steps to set up the Repository
 4. Inside VS Code, go to the extensions tab and install the PROS extension for C/C++
 
 This will allow you to create and manage the PROS Projects we use for running code on our robots.
+
+During Devlopment
+ - Before making changes, make sure to fetch and pull from the origin branch
+ - If you make changes, write a descriptive commit message and push to the origin branch
