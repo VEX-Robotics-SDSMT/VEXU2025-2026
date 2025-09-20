@@ -1,5 +1,4 @@
-#ifndef _GLOBALS_H
-#define _GLOBALS_H
+#pragma once
 
 #include "api.h"
 #include "MinesMotorGroup.h"
@@ -70,5 +69,3 @@ extern const double ROLLER_TIMEOUT;
 #define axisLeftX pros::E_CONTROLLER_ANALOG_LEFT_X
 #define axisRightY pros::E_CONTROLLER_ANALOG_RIGHT_Y
 #define axisRightX pros::E_CONTROLLER_ANALOG_RIGHT_X
-
-#endif

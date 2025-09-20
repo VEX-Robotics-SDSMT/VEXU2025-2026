@@ -1,5 +1,4 @@
-#ifndef ODOMETRY_H
-#define ODOMETRY_H
+#pragma once
 
 #include "MinesMotorGroup.h"
 #include "pros/imu.hpp"
@@ -45,7 +44,5 @@ class DiffDriveOdometry
 
 
 }
-
-#endif 
 
 

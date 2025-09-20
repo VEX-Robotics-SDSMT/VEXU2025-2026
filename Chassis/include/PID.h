@@ -1,5 +1,4 @@
-#ifndef _MINES_MOTOR_GROUP
-#define _MINES_MOTOR_GROUP
+#pragma once
 
 #include <string>
 #include <iostream>
@@ -64,5 +63,3 @@ namespace Mines
             double GetTarget();
     };
 }
-
-#endif

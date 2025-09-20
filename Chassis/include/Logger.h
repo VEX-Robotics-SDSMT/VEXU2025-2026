@@ -1,5 +1,4 @@
-#ifndef LOGGER
-#define LOGGER
+#pragma once
 
 #include "globals.h"
 #include "pros/imu.hpp"
@@ -26,6 +25,3 @@ class ScreenLogger
 
         void Log(std::string logLine, int row, LoggerSettings setting);
 };
-
-
-#endif

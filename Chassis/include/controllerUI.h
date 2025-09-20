@@ -1,8 +1,5 @@
-#ifndef _CONTROLLERUI_H
-#define _CONTROLLERUI_H
+#pragma once
 
 #include "api.h"
 
 int initAutonSide(pros::Controller& Master);
-
-#endif

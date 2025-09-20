@@ -1,5 +1,4 @@
-#ifndef VEX_GPS_H
-#define VEX_GPS_H
+#pragma once
 
 #include "pros/gps.hpp"
 #include "TaskBase.h"
@@ -15,6 +14,4 @@ to work with driving and the GPS sensor*/
 
 void gpsdrive(double distance, int xdir, int ydir, double speed, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps);
 void gpsturn(double tgt, double speed, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps);
-
-#endif
 

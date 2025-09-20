@@ -1,5 +1,4 @@
-#ifndef BOTFUNCTIONS_H
-#define BOTFUNCTIONS_H
+#pragma once
 
 #include "globals.h"
 #include "MinesMotorGroup.h"
@@ -16,5 +15,3 @@ void shootDisk();
 void shoot3Disk();
 Color getColor(pros::c::optical_rgb_s_t color);
 void swapRollerColor(Color color, double voltage);
-
-#endif

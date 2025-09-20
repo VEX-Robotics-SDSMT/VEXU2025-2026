@@ -1,5 +1,4 @@
-#ifndef TASK_BASE
-#define TASK_BASE
+#pragma once
 
 #include "pros/rtos.hpp"
 #include <iostream>
@@ -32,5 +31,3 @@ class TaskBase
 };
 
 }
-
-#endif

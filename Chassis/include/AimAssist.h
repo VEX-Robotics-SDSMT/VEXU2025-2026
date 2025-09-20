@@ -1,5 +1,4 @@
-#ifndef AIM_ASSIST_H
-#define AIM_ASSIST_H
+#pragma once
 
 #include "pros/vision.hpp"
 #include "TaskBase.h"
@@ -83,4 +82,3 @@ class AimAssist: public TaskBase
 };
 
 }
-#endif

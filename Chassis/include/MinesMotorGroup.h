@@ -1,5 +1,4 @@
-#ifndef MINES_MOTOR_GROUP
-#define MINES_MOTOR_GROUP
+#pragma once
 
 #include <vector>
 #include "api.h"
@@ -39,5 +38,3 @@ class MinesMotorGroup
 };
 
 }
-
-#endif

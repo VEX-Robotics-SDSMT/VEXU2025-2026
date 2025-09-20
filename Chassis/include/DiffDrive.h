@@ -1,5 +1,4 @@
-#ifndef DIFF_DRIVE
-#define DIFF_DRIVE
+#pragma once
 
 #include "MinesMotorGroup.h"
 #include "PID.h"
@@ -141,6 +140,3 @@ class DiffDrive
 };
 
 }
-
-#endif
-
