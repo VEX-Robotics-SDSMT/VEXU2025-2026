@@ -1,15 +1,38 @@
--PID refactoring branch
+# PID refactoring branch
 
-Steps to set up the Repository
+This branch is for the development of a new PID system that has a more simple but still very flexible implementation.
 
-1. Install GitHub Desktop
-2. Make sure VS Code is installed on your machine
-3. Clone the Repository to your local machine using HTTPS
-4. Inside VS Code, go to the extensions tab and install the PROS extension for C/C++
+## Examples
 
-This will allow you to create and manage the PROS Projects we use for running code on our robots.
+How to use new PID objects
 
-During Devlopment
+### Create the object
+The PID constructor only requires a PID Tuning object. The other arguments have defaults set.
 
-* Before making changes, make sure to fetch and pull from the origin branch
-* If you make changes, write a descriptive commit message and push to the origin branch
+``` C++
+Mines::PIDTuning tuning;
+tuning.kP = 1.0;
+tuning.kI = 1.0;
+tuning.kD = 1.0;
+
+Mines::PID pid(tuning, 0.05, 10, 1000, msec);
+```
+
+### Setting the target
+Before you use the PID you need to set a target for it to go to this example will use a motor and will spin it to 1000 ticks
+
+```C++
+pros::Motor motor(1);
+double pos = motor.get_position();
+
+pid.setTarget(pos);
+```
+### Using the PID object
+The previously created PID object can be used in a way similar to the following the loop will exit once the PID reaches it's position for the goal time or if it times out.
+``` C++
+while(pid)
+{
+    motor.move(pid.update(motor.get_position()));
+    pros::delay(20);
+}
+````
