@@ -23,9 +23,8 @@ Before you use the PID you need to set a target for it to go to this example wil
 
 ```C++
 pros::Motor motor(1);
-double pos = motor.get_position();
 
-pid.setTarget(pos);
+pid.setTarget(1000);
 ```
 ### Using the PID object
 The previously created PID object can be used in a way similar to the following the loop will exit once the PID reaches it's position for the goal time or if it times out.
