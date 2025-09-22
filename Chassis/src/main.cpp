@@ -90,7 +90,17 @@ void autonomous()
 
 	drive.driveTiles(1000);
 	
+	PIDTuning tuning;
+	PID pid(tuning);
 
+	pid.update(20);
+
+	pros::Motor m(1);
+	m.get_position();
+	while(pid)
+	{
+
+	}
 }
 
 /**

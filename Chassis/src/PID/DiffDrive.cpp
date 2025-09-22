@@ -388,5 +388,3 @@ void DiffDrive::DriveSensorInterface::Reset()
     left.tarePosition();
     right.tarePosition();
 }
-
-

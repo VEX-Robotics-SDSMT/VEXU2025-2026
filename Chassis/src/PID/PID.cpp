@@ -7,112 +7,79 @@ using namespace std;
 
 namespace Mines
 {
-    PID::PID(PIDInterface *inputInterface, LoggerSettings settings) : logger(settings)
+    PID::PID(const PIDTuning& tuning, double tolerance, time_t goalTime, time_t timeoutTime, timeUnit unit)
+    : m_tuning(tuning), m_tolerance(tolerance), m_prevTime(pros::micros())
     {
-        interface = inputInterface;
+        setTimeout(timeoutTime, unit);
+        setGoalTime(goalTime, unit);
     }
 
-    void PID::update(double deltaT)
+    void PID::setTarget(double target)
     {
-        double currentPosition = getPosition();
-        logger.Log("current position: " + std::to_string(currentPosition), 0, LoggerSettings::verbose);
-        double error = target - currentPosition;
-        logger.Log("current error value: " + std::to_string(error), 1, LoggerSettings::verbose);
+        m_target = target;
+        m_timeSinceReached = 0;
+        m_timeSinceSet = 0;
+    }
 
-        double positional = KP * error;
-        double integral = KI * ( lastIntergral + (error * deltaT));
-        double derivative = KD * ((error - lastError) / deltaT);
-        logger.Log("positional: " + std::to_string(positional), 2, LoggerSettings::verbose);
-        logger.Log("integral: " + std::to_string(integral), 3, LoggerSettings::verbose);
-        logger.Log("derivative: " + std::to_string(derivative), 4, LoggerSettings::verbose);
+    double PID::update(double measuredVal)
+    {
+        time_t currentTime = pros::micros();
+        time_t deltaTime = currentTime - m_prevTime;
+        
+        double error = m_target - measuredVal;
+        
+        
+        double proportion = m_tuning.kP * error;
+        //TODO: add integral windup guard
+        m_integral += m_tuning.kI * (error * (double)deltaTime);
+        
+        double derivative = 0.0;
+        if(deltaTime > 0)
+            derivative = m_tuning.kD * ( (error - m_prevError) / deltaTime);
 
-        double controlVariable = positional + integral + derivative;
-        logger.Log("controlVariable: " + std::to_string(controlVariable), 6, LoggerSettings::verbose);
+        m_prevError = error;
+        m_prevTime = currentTime;
 
-
-        //setting loop variables
-        if (error != NAN)
+        if(IN_RANGE(measuredVal, m_target - m_tolerance, m_target + m_tolerance))
         {
-            logger.Log("error: " + std::to_string(error), 8, LoggerSettings::verbose); 
-            lastError = error;
+            m_timeSinceReached += deltaTime;
         }
         else
         {
-            logger.Log("ERROR: error is Nan", 8, LoggerSettings::error);
-        }
-        
-        if (integral == NAN)
-        {
-            logger.Log("ERROR: integral is Nan", 9, LoggerSettings::error);
-            lastIntergral = 0; 
+            m_timeSinceReached = 0;
         }
 
-        //updating times
-        timeSinceTargetSet += deltaT;
-        if(fabs(target - currentPosition) < tolerance)
-        {
-            timeSinceTargetReached += deltaT;
-        }
+        m_timeSinceSet += deltaTime;
 
-        //setting output variables
-        //std::cout << controlVariable << endl;
-        setOutput(controlVariable);
+        return proportion + m_integral + derivative;
     }
 
-    double PID::getPosition()
+    const PIDTuning &PID::getTuning()
     {
-        return interface->getPositionPID();
+        return m_tuning;
+    }
+    void PID::setTuning(const PIDTuning &tuning)
+    {
+        m_tuning = tuning;
     }
 
-    void PID::setOutput(double value)
+    void PID::setGoalTime(time_t time, timeUnit unit)
     {
-        velocity = value;
-        interface->setVelocityPID(value);
+        m_goalTime = time * unit;
     }
 
-    //----------------Getters/Setters-------------------
-    void PID::resetTimers()
+    void PID::setTimeout(time_t time, timeUnit unit)
     {
-        timeSinceTargetReached = 0;
-        timeSinceTargetSet = 0;
+        m_timeoutTime = time * unit;
     }
 
-    void PID::SetPIDConst(double kp, double ki, double kd)
+    bool PID::targetReached()
     {
-        KP = kp;
-        KI = ki;
-        KD = kd;
+        return m_timeSinceReached >= m_goalTime;
     }
 
-    void PID::SetTolerance(double tolerance)
+    bool PID::shouldRun()
     {
-        this->tolerance = tolerance;
-    }
-
-    void PID::SetTarget(double target)
-    {
-        resetTimers();
-        this->target = target;
-    }
-
-    double PID::GetVelocity()
-    {
-        return velocity;
-    }
-
-    double PID::GetTimeSinceTargetReached()
-    {
-        return timeSinceTargetReached;
-    }
-
-    double PID::GetTimeSinceTargetSet()
-    {
-        return timeSinceTargetSet;
-    }
-
-    double PID::GetTarget()
-    {
-        return target;
+        return (!targetReached()) && m_timeSinceSet < m_timeoutTime;
     }
 }
-
