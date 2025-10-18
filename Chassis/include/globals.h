@@ -9,6 +9,8 @@
 #define VEX_GPS 5
 #define ENCODER_TOP 1
 #define ENCODER_BOTTOM 2
+#define D_SENSTOP 6
+#define D_SENSBOT 5
 
 #define L_FRONT 11
 #define L_REAR 1
@@ -25,6 +27,7 @@ extern pros::Imu intertialSensor;
 extern pros::Vision vision;
 extern pros::ADIEncoder driveEncoder;
 extern pros::GPS gps;
+extern pros::ADIUltrasonic deeter;
 
 extern pros::Motor leftFront;
 extern pros::Motor leftRear;

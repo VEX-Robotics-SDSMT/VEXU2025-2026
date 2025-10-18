@@ -63,7 +63,7 @@ class DiffDrive
     {
         Mines::MinesMotorGroup left;
         Mines::MinesMotorGroup right;
-
+        
         public:
             DriveSensorInterface(MinesMotorGroup left, MinesMotorGroup right);
             double Get();

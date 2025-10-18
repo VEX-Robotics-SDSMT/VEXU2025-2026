@@ -375,6 +375,20 @@ void EncoderWheelSensorInterface::Reset()
     encoder.reset();
 }
 
+// //Motor Wheel Sensor
+// DriveSensorInterface::DriveSensorInterface(MinesMotorGroup left, MinesMotorGroup right) : left(left), right(right) {}
+
+// double DriveSensorInterface::Get()
+// {
+//     return (left.getPosition() + right.getPosition()) / 2;
+// }
+
+// void DriveSensorInterface::Reset()
+// {
+//     left.tarePosition();
+//     right.tarePosition();
+// }
+
 //Motor Wheel Sensor
 DiffDrive::DriveSensorInterface::DriveSensorInterface(MinesMotorGroup left, MinesMotorGroup right) : left(left), right(right) {}
 

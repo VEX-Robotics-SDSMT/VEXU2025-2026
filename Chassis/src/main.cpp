@@ -75,22 +75,25 @@ void competition_initialize()
 void autonomous() 
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
+	//DriveSensorInterface driveSensors(leftDriveMotors, rightDriveMotors);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(2, 0, 0);
+	//DiffDrive drive(leftDriveMotors, rightDriveMotors, intertialSensor);
+	drive.setDrivePIDVals(0.1, 0, 0);
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(3.5, 0, 5); //tuned 10/19/2024
+	drive.setTurnPIDVals(1, 0.1, 0); //tuned 10/19/2024
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(1); 
+	drive.setMaxDriveSpeed(0.5); 
 	drive.setMaxTurnSpeed(0.8); //tuned 10/19/2024
 
 	drive.setMaxDriveAccel(0.12);
 
-	//drive.turnDegreesAbsolute(180);
+	drive.turnDegreesAbsolute(180);
 	//drive.turnDegreesAbsolute(0);
 
-	drive.driveTiles(1000);
-	
-
+	drive.driveTiles(200);
+	rightDriveMotors.brake();
+	leftDriveMotors.brake();
+	drive.killPIDs();
 }
 
 /**
@@ -109,6 +112,8 @@ void autonomous()
 
 void opcontrol()
 {	
+	pros::ADIUltrasonic deeter(4, 3);
+
 	while(true)
 	{	
 		// ********************DRIVE********************
@@ -137,11 +142,12 @@ void opcontrol()
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 
 		//GPS testing
-		double head = gps.get_heading();
+		double head = driveEncoder.get_value();
+		double mm = deeter.get_value();
 		pros::c::gps_status_s_t test = gps.get_status();
 		double x = test.x;
 		double y = test.y;
-		MasterController.print(0, 0, "%f", head);
+		MasterController.print(0, 0, "Ticks: %f", head);
 		//MasterController.print(0, 10, "%f", y);
 		MasterController.clear_line(0);
 

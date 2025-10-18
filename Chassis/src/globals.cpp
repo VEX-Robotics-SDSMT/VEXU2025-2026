@@ -7,6 +7,7 @@ pros::Imu intertialSensor(INERTIAL_SENSOR);
 pros::Vision vision(VISION_SENSOR);
 pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, true);
 pros::GPS gps(VEX_GPS);
+pros::ADIUltrasonic deeter(D_SENSBOT, D_SENSTOP);
 
 pros::Motor leftFront(L_FRONT, pros::E_MOTOR_GEARSET_18, false);
 pros::Motor leftRear(L_REAR, pros::E_MOTOR_GEARSET_18, false);
