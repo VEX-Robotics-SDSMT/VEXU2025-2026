@@ -1,0 +1,32 @@
+{
+  "configurations": [
+    {
+      "name": "PROS Project",
+      "includePath": [
+        "${workspaceFolder}/**",
+        "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2023-2024\\Chassis\\include",
+        "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2024-2025\\Chassis\\include",
+        "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2025-2026\\Chassis\\include",
+        "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2025-2026\\Proto1\\include"
+      ],
+      "defines": [
+        "_DEBUG",
+        "UNICODE",
+        "_UNICODE"
+      ],
+      "compilerPath": "c:\\Users\\101111485\\AppData\\Roaming\\Code\\User\\globalStorage\\sigbots.pros\\install\\pros-toolchain-windows\\usr\\bin\\arm-none-eabi-g++",
+      "cStandard": "gnu11",
+      "cppStandard": "gnu++20",
+      "intelliSenseMode": "gcc-arm",
+      "compileCommands": "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2023-2024\\Chassis\\compile_commands.json",
+      "browse": {
+        "path": [
+          "c:\\Users\\101111485\\Desktop\\Robot Stuff\\VEXU2025-2026\\Proto1"
+        ],
+        "limitSymbolsToIncludedHeaders": true,
+        "databaseFilename": ""
+      }
+    }
+  ],
+  "version": 4
+}

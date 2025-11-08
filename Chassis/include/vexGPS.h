@@ -15,6 +15,7 @@ to work with driving and the GPS sensor*/
 
 extern void gpsdriveX( double xtgt, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps);
 extern void gpsturn(double tgt, double speed, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps);
+extern void gpsturncall(double tgt, double speed, int times, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps);
 
 #endif
 

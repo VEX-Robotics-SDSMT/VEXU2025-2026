@@ -140,6 +140,9 @@ void opcontrol()
 		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B) ) {
 			gpsdriveX(1, leftDriveMotors, rightDriveMotors, gps);
 		}
+		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) ) {
+			gpsturncall(100, 50, 5, leftDriveMotors, rightDriveMotors, gps);
+		}
 		double head = gps.get_heading();
 		pros::c::gps_status_s_t test = gps.get_status();
 		double x = test.x;
