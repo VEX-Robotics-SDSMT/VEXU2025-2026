@@ -139,11 +139,17 @@ void opcontrol()
 			IntakeTop.move(-127);
 			IntakeRear.move(127);
 		}
-		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			IntakeFront.move(127);
 			IntakeMid.move(-127);
 			IntakeTop.move(-127);
 			IntakeRear.move(-127);
+		}
+		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)||MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+			IntakeFront.move(-127);
+			IntakeMid.move(127);
+			IntakeTop.move(127);
+			IntakeRear.move(127);
 		}
 		else {
 			IntakeFront.brake();
