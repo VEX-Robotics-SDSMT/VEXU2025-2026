@@ -35,8 +35,14 @@ void on_center_button() {
 void initialize() 
 {
 	intertialSensor.reset();
-	//pros::vision_signature_s_t RED_GOAL_SIG = vision.signature_from_utility(1, 4391, 7505, 5948, -1303, -147, -725, 1.6, 0);
-	//vision.set_signature(RED_GOAL_SIG_ID, &RED_GOAL_SIG);
+	pros::lcd::initialize();
+	pros::lcd::register_btn0_cb(on_center_button);
+
+	pros::delay(200); //allowing lcd to initialize
+
+	auto sig = vision.get_signature(1);
+	vision.set_signature(RED_GOAL_SIG_ID, &sig);
+
 	//pros::vision_signature_s_t BLUE_GOAL_SIG = vision.signature_from_utility(2, -3073, -1323, -2198, 4405, 9923, 7164, 1.5, 0);
 	//vision.set_signature(BLUE_GOAL_SIG_ID, &BLUE_GOAL_SIG);
 }
@@ -109,6 +115,7 @@ void autonomous()
 
 void opcontrol()
 {	
+	//pros::Vision vision(VISION_SENSOR);
 	while(true)
 	{	
 		// ********************DRIVE********************
@@ -136,6 +143,22 @@ void opcontrol()
 		
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 
+		
+		//Vision testing
+		
+		auto rtn = vision.get_object_count();		
+		pros::delay(20); //allowing lcd to update
+
+		pros::lcd::print(1, "opcontrol Obj count: %d", rtn);
+		
+		if(vision.get_object_count() == PROS_ERR){
+			pros::lcd::print(0, "Vision Error");
+		}
+		else{
+			pros::lcd::print(0, "Red Objects: %d", vision.get_object_count());
+		}		
+			
+		/* 
 		//GPS testing
 		double head = gps.get_heading();
 		pros::c::gps_status_s_t test = gps.get_status();
@@ -144,7 +167,10 @@ void opcontrol()
 		MasterController.print(0, 0, "%f", head);
 		//MasterController.print(0, 10, "%f", y);
 		MasterController.clear_line(0);
+		*/
 
+
+		
 		//*********************************************
 	}
 }

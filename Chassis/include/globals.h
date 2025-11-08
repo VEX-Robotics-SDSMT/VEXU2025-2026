@@ -3,9 +3,10 @@
 
 #include "api.h"
 #include "MinesMotorGroup.h"
+#include "pros/vision.h"
 
 #define INERTIAL_SENSOR 19
-#define VISION_SENSOR 20
+#define VISION_SENSOR 3
 #define VEX_GPS 5
 #define ENCODER_TOP 1
 #define ENCODER_BOTTOM 2
