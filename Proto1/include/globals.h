@@ -11,18 +11,21 @@
 #define ENCODER_BOTTOM 2 //unused so far
 
 #define L_FRONT 11//
-#define L_MFRONT 12//
-#define L_MREAR 3//
-#define L_REAR 1//
-#define R_FRONT 10 //
+#define L_MFRONT 5//
+#define L_MREAR 20//
+#define L_REAR 16//
+#define R_FRONT 3 //
 #define R_MFRONT 18//
-#define R_MREAR 19//
-#define R_REAR 20//
+#define R_MREAR 1//
+#define R_REAR 10//
 
-#define I_MID 15//
-#define I_FRONT 2//
+#define I_MID 2//
+#define I_FRONT 17//
 #define I_TOP 13//
-#define I_REAR 16//
+#define I_REAR 9//
+
+#define TESTPNEU 1//
+#define TESTPNEU1 2//
 
 #define INTAKE_MOTOR_GEARSET redGearbox
 #define FLYWHEELS_MOTOR_GEARSET blueGearbox
@@ -48,6 +51,9 @@ extern std::vector<pros::Motor> leftDriveVector;
 extern std::vector<pros::Motor> rightDriveVector;
 extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
+
+extern pros::ADIDigitalOut testP;
+extern pros::ADIDigitalOut testP1;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;

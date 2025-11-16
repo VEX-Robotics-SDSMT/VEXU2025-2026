@@ -109,6 +109,7 @@ void autonomous()
 
 void opcontrol()
 {	
+	bool togMOGO = false;
 	while(true)
 	{	
 		// ********************DRIVE********************
@@ -156,6 +157,15 @@ void opcontrol()
 			IntakeMid.brake();
 			IntakeTop.brake();
 			IntakeRear.brake();
+		}
+		//MOGO
+		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			if(togMOGO == 1)
+				togMOGO = 0;
+			else
+				togMOGO = 1;
+			testP.set_value(togMOGO);
+			testP1.set_value(togMOGO);
 		}
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 
