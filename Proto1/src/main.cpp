@@ -35,6 +35,8 @@ void on_center_button() {
 void initialize() 
 {
 	intertialSensor.reset();
+	// intakeDropR.set_value(0);
+	// intakeDropL.set_value(0);
 	//pros::vision_signature_s_t RED_GOAL_SIG = vision.signature_from_utility(1, 4391, 7505, 5948, -1303, -147, -725, 1.6, 0);
 	//vision.set_signature(RED_GOAL_SIG_ID, &RED_GOAL_SIG);
 	//pros::vision_signature_s_t BLUE_GOAL_SIG = vision.signature_from_utility(2, -3073, -1323, -2198, 4405, 9923, 7164, 1.5, 0);
@@ -46,7 +48,8 @@ void initialize()
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -59,7 +62,6 @@ void disabled() {}
  */
 void competition_initialize() 
 {
-	//Skills?
 }
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -76,21 +78,20 @@ void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(2, 0, 0);
+	drive.setDrivePIDVals(0.1, 0, 0);
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(3.5, 0, 5); //tuned 10/19/2024
+	drive.setTurnPIDVals(1.4, 0.1, 0); //1.4, 0.1, 0 //tuned 12/10/2025
+	//drive.setTurnPIDVals(0, 0, 0); //1.4, 0.1, 0 //tuned 12/10/2025
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(1); 
-	drive.setMaxTurnSpeed(0.8); //tuned 10/19/2024
-
+	drive.setMaxDriveSpeed(0.3); 
+	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
 
 	//drive.turnDegreesAbsolute(180);
 	//drive.turnDegreesAbsolute(0);
 
-	drive.driveTiles(1000);
-	
-
+	drive.driveTiles(200);
+	drive.killPIDs();
 }
 
 /**
@@ -110,23 +111,25 @@ void autonomous()
 void opcontrol()
 {	
 	bool togMOGO = false;
+	intakeDropR.set_value(0);
+	intakeDropL.set_value(0);
 	while(true)
 	{	
 		// ********************DRIVE********************
 		// 2 stick arcade
-		double leftAxisY = MasterController.get_analog(axisLeftY);
-		double rightAxisX = MasterController.get_analog(axisRightX);
-		double leftVelocity = ((leftAxisY + rightAxisX));
-		double rightVelocity = ((leftAxisY - rightAxisX));
+		// double leftAxisY = MasterController.get_analog(axisLeftY);
+		// double rightAxisX = MasterController.get_analog(axisRightX);
+		// double leftVelocity = ((leftAxisY + rightAxisX));
+		// double rightVelocity = ((leftAxisY - rightAxisX));
 
 		// 1 stick arcade
-		//double leftAxisY = MasterController.get_analog(axisLeftY);
-		//double leftAxisX = MasterController.get_analog(axisLeftX);
-		//double rightAxisX = MasterController.get_analog(axisRightX);
-		//double aimVelocityLeft = (rightAxisX) * 0.06;
-		//double aimVelocityRight = -rightAxisX * 0.06;
-		//double leftVelocity = ((leftAxisY + leftAxisX + aimVelocityLeft));
-		//double rightVelocity = ((leftAxisY - leftAxisX + aimVelocityRight));
+		double leftAxisY = MasterController.get_analog(axisLeftY);
+		double leftAxisX = MasterController.get_analog(axisLeftX);
+		double rightAxisX = MasterController.get_analog(axisRightX);
+		double aimVelocityLeft = (rightAxisX) * 0.06;
+		double aimVelocityRight = -rightAxisX * 0.06;
+		double leftVelocity = ((leftAxisY + leftAxisX + aimVelocityLeft));
+		double rightVelocity = ((leftAxisY - leftAxisX + aimVelocityRight));
 
 		// Tank
 		// double leftAxisY = MasterController.get_analog(axisLeftY);
@@ -134,18 +137,22 @@ void opcontrol()
 		// double leftVelocity = ((leftAxisY) * axisPercentBlue);
 		// double rightVelocity = ((-rightAxisY) * axisPercentBlue);
 
+		//INTAKE MOTORS
+		//Score HIGH
 		if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
 			IntakeFront.move(127);
 			IntakeMid.move(-127);
 			IntakeTop.move(-127);
 			IntakeRear.move(127);
 		}
+		//Intake but not score
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
 			IntakeFront.move(127);
 			IntakeMid.move(-127);
 			IntakeTop.move(-127);
-			IntakeRear.move(-127);
+			IntakeRear.brake();
 		}
+		//Outtake
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)||MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
 			IntakeFront.move(-127);
 			IntakeMid.move(127);
@@ -158,14 +165,14 @@ void opcontrol()
 			IntakeTop.brake();
 			IntakeRear.brake();
 		}
-		//MOGO
+		//INTAKE WING
 		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 			if(togMOGO == 1)
 				togMOGO = 0;
 			else
 				togMOGO = 1;
-			testP.set_value(togMOGO);
-			testP1.set_value(togMOGO);
+			intakeDropR.set_value(togMOGO);
+			intakeDropL.set_value(togMOGO);
 		}
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 

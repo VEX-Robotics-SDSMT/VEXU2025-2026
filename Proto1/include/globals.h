@@ -4,11 +4,11 @@
 #include "api.h"
 #include "MinesMotorGroup.h"
 
-#define INERTIAL_SENSOR 19 //unused so far
+#define INERTIAL_SENSOR 7
 #define VISION_SENSOR 20 //unused so far
 #define VEX_GPS 5 //unused so far
-#define ENCODER_TOP 1 //unused so far
-#define ENCODER_BOTTOM 2 //unused so far
+#define ENCODER_TOP 3 //unused so far
+#define ENCODER_BOTTOM 4 //unused so far
 
 #define L_FRONT 11//
 #define L_MFRONT 5//
@@ -25,7 +25,7 @@
 #define I_REAR 9//
 
 #define TESTPNEU 1//
-#define TESTPNEU1 2//
+#define TESTPNEU1 8//
 
 #define INTAKE_MOTOR_GEARSET redGearbox
 #define FLYWHEELS_MOTOR_GEARSET blueGearbox
@@ -52,8 +52,8 @@ extern std::vector<pros::Motor> rightDriveVector;
 extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
 
-extern pros::ADIDigitalOut testP;
-extern pros::ADIDigitalOut testP1;
+extern pros::ADIDigitalOut intakeDropL;
+extern pros::ADIDigitalOut intakeDropR;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;

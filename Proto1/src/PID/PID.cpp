@@ -22,16 +22,19 @@ namespace Mines
         double positional = KP * error;
         double integral = KI * ( lastIntergral + (error * deltaT));
         double derivative = KD * ((error - lastError) / deltaT);
+        if (deltaT <= 0 || std::isnan(deltaT))
+            derivative = 0;
         logger.Log("positional: " + std::to_string(positional), 2, LoggerSettings::verbose);
         logger.Log("integral: " + std::to_string(integral), 3, LoggerSettings::verbose);
         logger.Log("derivative: " + std::to_string(derivative), 4, LoggerSettings::verbose);
 
         double controlVariable = positional + integral + derivative;
+        controlVariable = std::clamp(controlVariable, -1000.0, 1000.0);
         logger.Log("controlVariable: " + std::to_string(controlVariable), 6, LoggerSettings::verbose);
 
 
         //setting loop variables
-        if (error != NAN)
+        if (!isnan(error))
         {
             logger.Log("error: " + std::to_string(error), 8, LoggerSettings::verbose); 
             lastError = error;
@@ -41,7 +44,7 @@ namespace Mines
             logger.Log("ERROR: error is Nan", 8, LoggerSettings::error);
         }
         
-        if (integral == NAN)
+        if (isnan(integral))
         {
             logger.Log("ERROR: integral is Nan", 9, LoggerSettings::error);
             lastIntergral = 0; 
@@ -57,6 +60,7 @@ namespace Mines
         //setting output variables
         //std::cout << controlVariable << endl;
         setOutput(controlVariable);
+        //lastIntergral += error * deltaT;
     }
 
     double PID::getPosition()
@@ -115,4 +119,3 @@ namespace Mines
         return target;
     }
 }
-
