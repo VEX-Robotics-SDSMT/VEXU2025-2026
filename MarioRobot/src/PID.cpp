@@ -7,7 +7,7 @@ using namespace std;
 namespace Mines
 {
     PID::PID(const PIDTuning& tuning, double tolerance, time_t goalTime, time_t timeoutTime)
-    : m_tuning(tuning), m_tolerance(tolerance), m_prevTime(pros::micros())
+    : m_tuning(tuning), m_tolerance(tolerance), m_prevTime(pros::millis())
     {
         setTimeout(timeoutTime);
         setGoalTime(goalTime);
@@ -22,7 +22,7 @@ namespace Mines
 
     double PID::update(double measuredVal)
     {
-        time_t currentTime = pros::micros();
+        time_t currentTime = pros::millis();
         time_t deltaTime = currentTime - m_prevTime;
         
         double error = m_target - measuredVal;
@@ -64,12 +64,12 @@ namespace Mines
 
     void PID::setGoalTime(time_t time)
     {
-        m_goalTime = time * 1000;
+        m_goalTime = time;
     }
 
     void PID::setTimeout(time_t time)
     {
-        m_timeoutTime = time * 1000;
+        m_timeoutTime = time;
     }
 
     bool PID::targetReached()
