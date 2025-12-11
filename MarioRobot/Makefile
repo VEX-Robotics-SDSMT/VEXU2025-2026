@@ -11,6 +11,7 @@ FWDIR:=$(ROOT)/firmware
 BINDIR=$(ROOT)/bin
 SRCDIR=$(ROOT)/src
 INCDIR=$(ROOT)/include
+INCDIR += $(ROOT)/vendor
 
 WARNFLAGS+=
 EXTRA_CFLAGS=
