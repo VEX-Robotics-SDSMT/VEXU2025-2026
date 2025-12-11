@@ -25,7 +25,7 @@ void opcontrol()
 
 	tuning.maxIntegral = 100.0;
 	
-	Mines::PID pid(tuning, 1, 100, 10000);
+	Mines::PID pid(tuning);
 
 	double target = 360.0;
 	pid.setTarget(target);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cstdint>
+
 #define IN_RANGE(x, min, max) (x >= min && x <= max)
 
 namespace Mines

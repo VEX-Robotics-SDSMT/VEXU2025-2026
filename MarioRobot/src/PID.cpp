@@ -37,7 +37,7 @@ namespace Mines
 
         //calculate the integral
         m_integral += m_tuning.kI * (error * deltaTime);
-        std::clamp(m_integral, -m_tuning.maxI, m_tuning.maxI);
+        std::clamp(m_integral, -m_tuning.maxIntegral, m_tuning.maxIntegral);
         
         //calculate the derivative
         double derivative = 0.0;
