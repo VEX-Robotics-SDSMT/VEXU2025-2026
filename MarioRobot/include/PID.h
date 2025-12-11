@@ -1,16 +1,14 @@
 #pragma once
 
-#include <string>
-#include <iostream>
-#include "main.h"
-#include <math.h>
-
 #define IN_RANGE(x, min, max) (x >= min && x <= max)
 
 namespace Mines
 {
     struct PIDTuning
     {
+        //maximum range for the integral value to prevent windup default to +/-10
+        double maxIntegral = 10.0;
+        //PID constants
         float kP = 0.0;
         float kI = 0.0;
         float kD = 0.0;
@@ -19,7 +17,7 @@ namespace Mines
     class PID
     {
     public:
-        PID(const PIDTuning& tuning, double tolerance = 0.05, time_t goalTime = 10, time_t timeoutTime = 10);
+        PID(const PIDTuning& tuning, double tolerance = 0.05, uint32_t goalTime = 10, uint32_t timeoutTime = 10);
        
         /**
          * Set the target value for the PID loop
@@ -47,7 +45,7 @@ namespace Mines
          * \param time the time the robot must be in the target
          * \param unit the units of time
          */
-        void setGoalTime(time_t time);
+        void setGoalTime(double time);
         
         /**
          * Sets the acceptable margin of error.
@@ -61,7 +59,7 @@ namespace Mines
          * \param time the time until the loop times out
          * \param unit the unit of time you are using
          */
-        void setTimeout(time_t time);
+        void setTimeout(double time);
 
         /**
          * check if the PID loop has reached it's target for the correct ammount of time
@@ -83,14 +81,14 @@ namespace Mines
     private:
         PIDTuning m_tuning;
         double m_target = 0.0;
-        time_t m_prevTime = 0;
+        uint32_t m_prevTime = 0;
         double m_integral = 0.0;
         double m_prevError = 0.0;
         double m_tolerance = 0.0;
-        time_t m_timeSinceSet = 0;
-        time_t m_timeSinceReached = 0;
-        time_t m_goalTime = 0;
-        time_t m_timeoutTime = 0;
+        double m_timeSinceSet = 0;
+        double m_timeSinceReached = 0;
+        double m_goalTime = 0;
+        double m_timeoutTime = 0;
     };
 
 }
