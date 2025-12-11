@@ -5,7 +5,7 @@ pros::Controller MasterController (pros::E_CONTROLLER_MASTER);
 
 pros::Imu intertialSensor(INERTIAL_SENSOR);
 pros::Vision vision(VISION_SENSOR);
-pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, true);
+pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, false);
 pros::GPS gps(VEX_GPS);
 
 pros::Motor leftFront(L_FRONT, pros::E_MOTOR_GEARSET_18, true);
