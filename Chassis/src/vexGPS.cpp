@@ -31,6 +31,32 @@ void gpsdriveX( double xtgt, Mines::MinesMotorGroup left, Mines::MinesMotorGroup
     }
     
     return;
+}
+
+void gpsdriveY( double ytgt, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps)
+{
+    double tol = 0.5;
+    double speed = 80;
+    bool go = true;
+    pros::c::gps_status_s_t coord = gps.get_status();
+	double x = coord.x;
+	double y = coord.y;
+    if(ytgt > y)
+        speed *= -1;
+    
+    while(ytgt < y < (ytgt+tol) && go) {
+        double distance = abs(ytgt-y);
+        if(distance < 0.2)
+            speed *= 0.35;
+        right.move(speed), left.move(speed);
+        coord = gps.get_status();
+        y = coord.y;
+        if(ytgt <= y && x <= (ytgt+tol)) {
+            right.brake(), left.brake(), go = false;
+        }
+    }
+    
+    return;
 } 
 
 void gpsturn(double tgt, double speed, Mines::MinesMotorGroup left, Mines::MinesMotorGroup right, pros::GPS gps)
