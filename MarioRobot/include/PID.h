@@ -2,34 +2,33 @@
 
 #include <cstdint>
 
-#define IN_RANGE(x, min, max) (x >= min && x <= max)
-
 namespace Mines
 {
     struct PIDTuning
     {
         //maximum range for the integral value to prevent windup default to +/-10
-        double maxIntegral = 10.0;
+        double integralClamp = 10.0;
+        double maxOutput = 127.0;
+        double minOutput = -127.0;
         //PID constants
-        float kP = 0.0;
-        float kI = 0.0;
-        float kD = 0.0;
+        double kP = 0.0;
+        double kI = 0.0;
+        double kD = 0.0;
     };
 
     class PID
     {
     public:
-        PID(const PIDTuning& tuning, double tolerance = 0.05, uint32_t goalTime = 10, uint32_t timeoutTime = 10);
-       
-        /**
-         * Set the target value for the PID loop
-         */
-        void setTarget(double target);
+        PID(const PIDTuning& tuning);
+
+        //Resets the internal state of the PID controller
+        void reset();
+
         /**
          * Update the PID loop
          * \returns The output of the PID operations, normaly use this for voltage input into a motor.
          */
-        double update(double measuredVal);
+        double update(double target, double measuredVal, double dt);
 
         /**
          * Gets the PID tuning constants
@@ -42,55 +41,11 @@ namespace Mines
          */
         void setTuning(const PIDTuning& tuning);
 
-        /**
-         * Set the time the robot must be within the target to complete the movement
-         * \param time the time the robot must be in the target
-         * \param unit the units of time
-         */
-        void setGoalTime(double time);
-        
-        /**
-         * Sets the acceptable margin of error.
-         * If the tolerance is too low this can cause oscilations and the robot may not reach it's target.
-         * \param tolerance the acceptable margin of error
-         */
-        void setTolerance(double tolerance) { m_tolerance = tolerance; };
-        
-        /**
-         * Sets the time until the PID times out
-         * \param time the time until the loop times out
-         * \param unit the unit of time you are using
-         */
-        void setTimeout(double time);
-
-        /**
-         * check if the PID loop has reached it's target for the correct ammount of time
-         * \returns if the target has been reached or not
-         */
-        bool targetReached();
-
-        /**
-         * check if the PID loop should continue running or not
-         * \returns true if the target is not reached and it has not timed out
-         */
-        bool shouldRun();
-
-        operator bool()
-        {
-            return shouldRun();
-        }
 
     private:
         PIDTuning m_tuning;
-        double m_target = 0.0;
-        uint32_t m_prevTime = 0;
         double m_integral = 0.0;
         double m_prevError = 0.0;
-        double m_tolerance = 0.0;
-        double m_timeSinceSet = 0;
-        double m_timeSinceReached = 0;
-        double m_goalTime = 0;
-        double m_timeoutTime = 0;
     };
 
 }
