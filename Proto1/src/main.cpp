@@ -78,19 +78,36 @@ void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(0.1, 0, 0);
+	drive.setDrivePIDVals(.2, 0, 0.1); //tuned 12/11/25 gtg
 	drive.setDrivePIDTol(50);
 	drive.setTurnPIDVals(1.4, 0.1, 0); //1.4, 0.1, 0 //tuned 12/10/2025
-	//drive.setTurnPIDVals(0, 0, 0); //1.4, 0.1, 0 //tuned 12/10/2025
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(0.3); 
+	drive.setMaxDriveSpeed(0.4); 
 	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
 
-	//drive.turnDegreesAbsolute(180);
-	//drive.turnDegreesAbsolute(0);
+	drive.driveTiles(1350);
+	drive.turnDegreesAbsolute(90);
+	intakeDrop(intakeDropR, intakeDropL, 1);
+	intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	pros::delay(1500);
+	drive.driveTiles(1000, 2000);
+	drive.driveTiles(-200);
+	drive.driveTiles(1000, 2000);
+	intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	drive.driveTiles(-400);
+	intakeDrop(intakeDropR, intakeDropL, 0);
+	drive.turnDegreesAbsolute(90);
+	drive.driveTiles(-700);
+	
 
-	drive.driveTiles(1000);
+
+	// drive.driveTiles(1000);
+	// drive.driveTiles(-1000);
+	// drive.turnDegreesAbsolute(180);
+	// drive.turnDegreesAbsolute(0);
+
+	
 	drive.killPIDs();
 }
 
@@ -140,24 +157,15 @@ void opcontrol()
 		//INTAKE MOTORS
 		//Score HIGH
 		if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			IntakeFront.move(127);
-			IntakeMid.move(-127);
-			IntakeTop.move(-127);
-			IntakeRear.move(127);
+			scoreTop(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
 		}
 		//Intake but not score
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			IntakeFront.move(127);
-			IntakeMid.move(-127);
-			IntakeTop.move(-127);
-			IntakeRear.brake();
+			intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
 		}
 		//Outtake
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)||MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			IntakeFront.move(-127);
-			IntakeMid.move(127);
-			IntakeTop.move(127);
-			IntakeRear.move(127);
+			outTake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
 		}
 		else {
 			IntakeFront.brake();
