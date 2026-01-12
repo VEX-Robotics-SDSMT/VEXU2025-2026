@@ -15,11 +15,11 @@ void toggleCompress();
 void shootDisk();
 void shoot3Disk();
 void intakeDrop(pros::ADIDigitalOut left, pros::ADIDigitalOut right, bool value);
-void intakeSlow(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
-void scoreTop(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
-void outTake(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
-void scoreMid(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
-void intakeBrake(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
+void intakeSlow();
+void scoreTop();
+void outTake();
+void scoreMid();
+void intakeBrake();
 Color getColor(pros::c::optical_rgb_s_t color);
 void swapRollerColor(Color color, double voltage);
 

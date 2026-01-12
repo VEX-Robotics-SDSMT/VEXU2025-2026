@@ -6,7 +6,7 @@
 
 #define INERTIAL_SENSOR 7
 #define VISION_SENSOR 20 //unused so far
-#define VEX_GPS 5 //unused so far
+#define VEX_GPS 21 //unused so far
 #define ENCODER_TOP 3 //unused so far
 #define ENCODER_BOTTOM 4 //unused so far
 
@@ -66,6 +66,7 @@ extern int greenGearbox;
 extern int redGearbox;
 
 extern bool skills;
+extern bool lower;
 
 extern uint8_t RED_GOAL_SIG_ID;
 extern uint8_t BLUE_GOAL_SIG_ID;
