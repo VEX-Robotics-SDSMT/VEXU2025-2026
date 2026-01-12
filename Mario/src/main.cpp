@@ -36,14 +36,6 @@ void on_center_button() {
 void initialize() 
 {
 	intertialSensor.reset();
-	if(red_team) {
-		COLOR_MAX = RED_MAX;
-		COLOR_MIN = RED_MIN;
-	}
-	else {
-		COLOR_MAX = BLUE_MAX;
-		COLOR_MIN = BLUE_MIN;
-	}
 }
 
 
@@ -101,7 +93,23 @@ void autonomous()
 void opcontrol()
 {	
 	intakeBrake();
-	//Arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	Arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	Arm.set_zero_position(Arm.get_position());
+	Arm.brake();
+
+	if(red_team) {
+		COLOR_MAX = BLUE_MAX;
+		COLOR_MIN = BLUE_MIN;
+		MasterController.clear_line(0);
+		MasterController.print(0, 0, "Filter BLUE : MAX: %d", COLOR_MAX);
+	}
+	else {
+		COLOR_MAX = RED_MAX;
+		COLOR_MIN = RED_MIN;
+		MasterController.clear_line(0);
+		MasterController.print(0, 0, "%s" "FILTER RED : MAX: %d", COLOR_MAX);
+	}
+
 	bool togArm = 0, togColor = 0;
 	colorSensor.set_led_pwm(100);
 	while(true)
@@ -150,11 +158,14 @@ void opcontrol()
 		}
 
 		//ARM
-		if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_UP)) {
-			Arm.move(100);
-		}
-		else if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_DOWN)) {
-			Arm.move(-100);
+		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
+			togArm = !togArm;
+			if(togArm) {
+				Arm.move_absolute(500, 100);
+			}
+			else {
+				Arm.move_absolute(0, 100);
+			}
 		}
 		else {
 			Arm.brake();
@@ -164,23 +175,19 @@ void opcontrol()
 		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_B)) {
 			togColor = !togColor;
 			//We are blue filter out blue or red filter blue
-			if((togColor && !red_team) || !togColor && red_team) {
+			if((togColor && !red_team) || (!togColor && red_team)) {
 				COLOR_MAX = BLUE_MAX;
 				COLOR_MIN = BLUE_MIN;
+				MasterController.clear_line(0);
+				MasterController.print(0, 0, "Filter BLUE : MAX: %d", COLOR_MAX);
 			}
 			//We are red filtering out red or blue filtering red
 			else {
 				COLOR_MAX = RED_MAX;
 				COLOR_MIN = RED_MIN;
+				MasterController.clear_line(0);
+				MasterController.print(0, 0, "%s" "FILTER RED : MAX: %d", COLOR_MAX);
 			}
-		}
-		if(red_team) {
-			COLOR_MAX = RED_MAX;
-			COLOR_MIN = RED_MIN;
-		}
-		else {
-			COLOR_MAX = BLUE_MAX;
-			COLOR_MIN = BLUE_MIN;
 		}
 
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
