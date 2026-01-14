@@ -93,9 +93,6 @@ void autonomous()
 void opcontrol()
 {	
 	intakeBrake();
-	Arm.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
-	Arm.set_zero_position(Arm.get_position());
-	Arm.brake();
 
 	if(red_team) {
 		COLOR_MAX = BLUE_MAX;
@@ -161,14 +158,11 @@ void opcontrol()
 		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
 			togArm = !togArm;
 			if(togArm) {
-				Arm.move_absolute(500, 100);
+				Arm.set_value(1);
 			}
 			else {
-				Arm.move_absolute(0, 100);
+				Arm.set_value(0);
 			}
-		}
-		else {
-			Arm.brake();
 		}
 
 		//Toggle Color changing
