@@ -45,3 +45,4 @@ int requiredColorLoops = 3;
 const double ROLLER_TIMEOUT = 3000;
 
 bool skills = true;
+bool lower = true;

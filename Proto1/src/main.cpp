@@ -3,6 +3,7 @@
 #include "botFunctions.h"
 #include "globals.h"
 #include "pros/rtos.h"
+#include "vexGPS.h"
 
 //globals
 
@@ -86,27 +87,86 @@ void autonomous()
 	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
 
-	drive.driveTiles(1350);
-	drive.turnDegreesAbsolute(90);
+	//#region OLD ROUTE;
+	//drive toward loader
+	// drive.driveTiles(1400);
+	// drive.turnDegreesAbsolute(90);
+	// //intake slow and drive into loader twice
+	// intakeDrop(intakeDropR, intakeDropL, 1);
+	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// pros::delay(500);
+	// drive.driveTiles(1000, 2000);
+	// drive.driveTiles(-200);
+	// drive.driveTiles(1000, 2000);
+	// //lift intake
+	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// drive.driveTiles(-400);
+	// intakeDrop(intakeDropR, intakeDropL, 0);
+	// //drive forward for any missed ones
+	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// drive.turnDegreesAbsolute(90);
+	// drive.driveTiles(500);
+	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// //drive back to score
+	// drive.driveTiles(-1100, 2000);
+	// scoreTop(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// drive.driveTiles(-100, 1500);
+	// pros::delay(1500);
+	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// drive.driveTiles(200);
+	// drive.driveTiles(-500, 800);
+	// //back away to go get center blocks
+	// drive.driveTiles(500);
+	// drive.turnDegreesAbsolute(0);
+	// drive.driveTiles(-1400);
+	// drive.turnDegreesAbsolute(-55);
+	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	// drive.driveTiles(1500);
+	//#endregion;
+	
+	//score preload on low goal or upper depending on orientation
+	int direction = 1;
+	//drive toward center goal
+	drive.driveTiles(1500);
+	if(lower) {
+		direction = -1;
+		drive.turnDegreesAbsolute(-45);
+		drive.driveTiles(200);
+		outTake();
+		
+	}
+	else {
+		drive.turnDegreesAbsolute(135);
+		drive.driveTiles(-200);
+		scoreTop();
+	}
+
+	pros::delay(500);
+	drive.driveTiles(1900 * direction);
+	drive.turnDegreesAbsolute(180);
+	drive.driveTiles(200);
+	intakeSlow();
 	intakeDrop(intakeDropR, intakeDropL, 1);
-	intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	pros::delay(1500);
 	drive.driveTiles(1000, 2000);
 	drive.driveTiles(-200);
 	drive.driveTiles(1000, 2000);
-	intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+	//lift intake
+	intakeBrake();
 	drive.driveTiles(-400);
 	intakeDrop(intakeDropR, intakeDropL, 0);
-	drive.turnDegreesAbsolute(90);
-	drive.driveTiles(-700);
-	
-
-
-	// drive.driveTiles(1000);
-	// drive.driveTiles(-1000);
-	// drive.turnDegreesAbsolute(180);
-	// drive.turnDegreesAbsolute(0);
-
+	//drive forward for any missed ones
+	intakeSlow();
+	drive.turnDegreesAbsolute(180);
+	drive.driveTiles(500);
+	intakeBrake();
+	//drive back to score
+	drive.driveTiles(-1100, 2000);
+	scoreTop();
+	drive.driveTiles(-100, 1500);
+	pros::delay(1500);
+	intakeBrake();
+	drive.driveTiles(200);
+	drive.driveTiles(-500, 800);
 	
 	drive.killPIDs();
 }
@@ -157,21 +217,18 @@ void opcontrol()
 		//INTAKE MOTORS
 		//Score HIGH
 		if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
-			scoreTop(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+			scoreTop();
 		}
 		//Intake but not score
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
-			intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+			intakeSlow();
 		}
 		//Outtake
 		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)||MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
-			outTake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
+			outTake();
 		}
 		else {
-			IntakeFront.brake();
-			IntakeMid.brake();
-			IntakeTop.brake();
-			IntakeRear.brake();
+			intakeBrake();
 		}
 		//INTAKE WING
 		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
