@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Mario",
+    "project_name": "Mario_BHIGH",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -311,7 +311,7 @@
     "upload_options": {
       "icon": "clawbot",
       "description": "Mario",
-      "slot": 1
+      "slot": 2
     }
   }
 }

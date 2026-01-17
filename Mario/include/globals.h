@@ -26,12 +26,11 @@
 #define I_TOP2 19//
 #define I_BACK 18//
 
-#define ARM_MOTOR 17
+#define ARM 8
+#define ARM1 3
 
 #define I_REAR 9
 
-#define TESTPNEU 1//
-#define TESTPNEU1 8//
 
 #define INTAKE_MOTOR_GEARSET redGearbox
 #define FLYWHEELS_MOTOR_GEARSET blueGearbox
@@ -58,15 +57,14 @@ extern pros::Motor IntakeFront;
 extern pros::Motor IntakeTop1;
 extern pros::Motor IntakeTop2;
 extern pros::Motor IntakeBot;
-extern pros::Motor Arm;
 
 extern std::vector<pros::Motor> leftDriveVector;
 extern std::vector<pros::Motor> rightDriveVector;
 extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
 
-extern pros::ADIDigitalOut intakeDropL;
-extern pros::ADIDigitalOut intakeDropR;
+extern pros::ADIDigitalOut Arm;
+extern pros::ADIDigitalOut Arm2;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;
@@ -86,6 +84,7 @@ extern int redGearbox;
 
 extern bool skills;
 extern bool red_team;
+extern bool lower;
 
 extern uint8_t RED_GOAL_SIG_ID;
 extern uint8_t BLUE_GOAL_SIG_ID;

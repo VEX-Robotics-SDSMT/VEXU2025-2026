@@ -24,10 +24,9 @@ pros::Motor IntakeFront(I_FRONT, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeTop1(I_TOP1, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeTop2(I_TOP2, pros::E_MOTOR_GEARSET_06, false);
 
-pros::Motor Arm(ARM_MOTOR, pros::E_MOTOR_GEARSET_06, true);
 
-pros::ADIDigitalOut intakeDropR(TESTPNEU);
-pros::ADIDigitalOut intakeDropL(TESTPNEU1);
+pros::ADIDigitalOut Arm(ARM);
+pros::ADIDigitalOut Arm2(ARM1);
 
 std::vector<pros::Motor> leftDriveVector = {leftFront, leftMid, leftRearTop, leftRearBot};
 std::vector<pros::Motor> rightDriveVector = {rightFront, rightMid, rightRearTop, rightRearBot};
@@ -55,4 +54,5 @@ int requiredColorLoops = 3;
 const double ROLLER_TIMEOUT = 3000;
 
 bool skills = true;
+bool lower = false;
 bool red_team = false;

@@ -70,7 +70,7 @@ void gpsturn(double tgt, double speed, Mines::MinesMotorGroup left, Mines::Mines
     double tol = 5.0; // initial tolerance on turning
     double angle = gps.get_heading();
     double pct = 1.0; //percentage of the speed to have the motors run
-    int cw = 0, ccw = 0; //controls angle tolerance based on direction turning
+    int cw = 0, ccw = 0;
     bool go = true;
 
     if(tgt > angle || angle - tgt > 180)
@@ -81,7 +81,6 @@ void gpsturn(double tgt, double speed, Mines::MinesMotorGroup left, Mines::Mines
     //while outside tolerance range, turn
     while(((tgt - (cw * tol)) < angle < (tgt + (ccw * tol))) && go)
     {
-        //get angle from sensor
         angle = gps.get_heading();
         
         //if close to tgt, slow down and set lower tolerance
