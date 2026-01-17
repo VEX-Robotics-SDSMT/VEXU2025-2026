@@ -18,7 +18,7 @@ void shoot3Disk();
 void intakeDrop(pros::ADIDigitalOut left, pros::ADIDigitalOut right, bool value);
 void intakeSlow(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
 
-void intakeScoreTop();
+void intakeScoreTop(bool slower = false);
 void intakeBasket();
 void intakeOut();
 void intakeScoreMid();

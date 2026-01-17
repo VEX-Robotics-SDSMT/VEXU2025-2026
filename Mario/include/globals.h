@@ -27,6 +27,7 @@
 #define I_BACK 18//
 
 #define ARM 8
+#define ARM1 3
 
 #define I_REAR 9
 
@@ -63,7 +64,7 @@ extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
 
 extern pros::ADIDigitalOut Arm;
-extern pros::ADIDigitalOut intakeDropR;
+extern pros::ADIDigitalOut Arm2;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;
@@ -83,6 +84,7 @@ extern int redGearbox;
 
 extern bool skills;
 extern bool red_team;
+extern bool lower;
 
 extern uint8_t RED_GOAL_SIG_ID;
 extern uint8_t BLUE_GOAL_SIG_ID;

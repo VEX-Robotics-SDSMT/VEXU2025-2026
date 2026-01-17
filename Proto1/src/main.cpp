@@ -5,7 +5,7 @@
 #include "pros/rtos.h"
 #include "vexGPS.h"
 
-//globals
+// globals
 
 /**
  * A callback function for LLEMU's center button.
@@ -16,12 +16,16 @@
 
 using namespace Mines;
 
-void on_center_button() {
+void on_center_button()
+{
 	static bool pressed = false;
 	pressed = !pressed;
-	if (pressed) {
+	if (pressed)
+	{
 		pros::lcd::set_text(2, "I was pressed!");
-	} else {
+	}
+	else
+	{
 		pros::lcd::clear_line(2);
 	}
 }
@@ -33,15 +37,15 @@ void on_center_button() {
  * to keep execution time for this mode under a few seconds.
  */
 
-void initialize() 
+void initialize()
 {
 	intertialSensor.reset();
 	// intakeDropR.set_value(0);
 	// intakeDropL.set_value(0);
-	//pros::vision_signature_s_t RED_GOAL_SIG = vision.signature_from_utility(1, 4391, 7505, 5948, -1303, -147, -725, 1.6, 0);
-	//vision.set_signature(RED_GOAL_SIG_ID, &RED_GOAL_SIG);
-	//pros::vision_signature_s_t BLUE_GOAL_SIG = vision.signature_from_utility(2, -3073, -1323, -2198, 4405, 9923, 7164, 1.5, 0);
-	//vision.set_signature(BLUE_GOAL_SIG_ID, &BLUE_GOAL_SIG);
+	// pros::vision_signature_s_t RED_GOAL_SIG = vision.signature_from_utility(1, 4391, 7505, 5948, -1303, -147, -725, 1.6, 0);
+	// vision.set_signature(RED_GOAL_SIG_ID, &RED_GOAL_SIG);
+	// pros::vision_signature_s_t BLUE_GOAL_SIG = vision.signature_from_utility(2, -3073, -1323, -2198, 4405, 9923, 7164, 1.5, 0);
+	// vision.set_signature(BLUE_GOAL_SIG_ID, &BLUE_GOAL_SIG);
 }
 
 /**
@@ -49,7 +53,8 @@ void initialize()
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {
+void disabled()
+{
 }
 
 /**
@@ -61,7 +66,7 @@ void disabled() {
  * This task will exit when the robot is enabled and autonomous or opcontrol
  * starts.
  */
-void competition_initialize() 
+void competition_initialize()
 {
 }
 /**
@@ -75,91 +80,63 @@ void competition_initialize()
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() 
+void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(.2, 0, 0.1); //tuned 12/11/25 gtg
+	drive.setDrivePIDVals(.2, 0, 0.1); // tuned 12/11/25 gtg
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(1.4, 0.1, 0); //1.4, 0.1, 0 //tuned 12/10/2025
+	drive.setTurnPIDVals(1.4, 0.1, 0); // 1.4, 0.1, 0 //tuned 12/10/2025
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(0.4); 
+	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
 
-	//#region OLD ROUTE;
-	//drive toward loader
-	// drive.driveTiles(1400);
-	// drive.turnDegreesAbsolute(90);
-	// //intake slow and drive into loader twice
-	// intakeDrop(intakeDropR, intakeDropL, 1);
-	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// pros::delay(500);
-	// drive.driveTiles(1000, 2000);
-	// drive.driveTiles(-200);
-	// drive.driveTiles(1000, 2000);
-	// //lift intake
-	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// drive.driveTiles(-400);
-	// intakeDrop(intakeDropR, intakeDropL, 0);
-	// //drive forward for any missed ones
-	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// drive.turnDegreesAbsolute(90);
-	// drive.driveTiles(500);
-	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// //drive back to score
-	// drive.driveTiles(-1100, 2000);
-	// scoreTop(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// drive.driveTiles(-100, 1500);
-	// pros::delay(1500);
-	// intakeBrake(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// drive.driveTiles(200);
-	// drive.driveTiles(-500, 800);
-	// //back away to go get center blocks
-	// drive.driveTiles(500);
-	// drive.turnDegreesAbsolute(0);
-	// drive.driveTiles(-1400);
-	// drive.turnDegreesAbsolute(-55);
-	// intakeSlow(IntakeFront, IntakeMid, IntakeTop, IntakeRear);
-	// drive.driveTiles(1500);
-	//#endregion;
-	
-	//score preload on low goal or upper depending on orientation
-	int direction = 1;
-	//drive toward center goal
-	drive.driveTiles(1500);
-	if(lower) {
-		direction = -1;
+	if (lower)
+	{
+		// run this route
+		drive.driveTiles(1275);
 		drive.turnDegreesAbsolute(-45);
-		drive.driveTiles(200);
+		drive.driveTiles(250, 700);
 		outTake();
-		
+		pros::delay(700);
+		drive.driveTiles(-1700);
+		drive.turnDegreesAbsolute(180);
+		drive.driveTiles(250);
 	}
-	else {
+	else
+	{
+		// score high
+		drive.driveTiles(1200);
 		drive.turnDegreesAbsolute(135);
 		drive.driveTiles(-200);
 		scoreTop();
+		pros::delay(2000);
+		drive.driveTiles(1900);
+		drive.turnDegreesAbsolute(180);
 	}
-
-	pros::delay(500);
-	drive.driveTiles(1900 * direction);
-	drive.turnDegreesAbsolute(180);
-	drive.driveTiles(200);
+	//unload loader
 	intakeSlow();
 	intakeDrop(intakeDropR, intakeDropL, 1);
-	drive.driveTiles(1000, 2000);
-	drive.driveTiles(-200);
-	drive.driveTiles(1000, 2000);
-	//lift intake
+	pros::delay(500);
+	for(int i = 0; i < 5; i++) {
+		drive.driveTiles(1000, 500);
+		drive.driveTiles(-50);
+	}
+	// lift intake
 	intakeBrake();
 	drive.driveTiles(-400);
-	intakeDrop(intakeDropR, intakeDropL, 0);
-	//drive forward for any missed ones
-	intakeSlow();
 	drive.turnDegreesAbsolute(180);
-	drive.driveTiles(500);
+	IntakeFront.move(-127);
+	pros::delay(200);
+	IntakeFront.brake();
+	intakeDrop(intakeDropR, intakeDropL, 0);
+	// drive forward for any missed ones
+	intakeSlow();
+	drive.turnDegreesAbsolute(184);
+	drive.driveTiles(500, 1000);
 	intakeBrake();
-	//drive back to score
+	// drive back to score on long goal
 	drive.driveTiles(-1100, 2000);
 	scoreTop();
 	drive.driveTiles(-100, 1500);
@@ -167,7 +144,13 @@ void autonomous()
 	intakeBrake();
 	drive.driveTiles(200);
 	drive.driveTiles(-500, 800);
-	
+	// drive to go park
+	drive.driveTiles(800);
+	// drive.turnDegreesAbsolute(80);
+	// drive.setMaxDriveAccel(0.4);
+	// drive.setMaxDriveSpeed(0.8);
+	// drive.driveTiles(-2000, 3000);
+
 	drive.killPIDs();
 }
 
@@ -186,12 +169,12 @@ void autonomous()
  */
 
 void opcontrol()
-{	
+{
 	bool togMOGO = false;
 	intakeDropR.set_value(0);
 	intakeDropL.set_value(0);
-	while(true)
-	{	
+	while (true)
+	{
 		// ********************DRIVE********************
 		// 2 stick arcade
 		// double leftAxisY = MasterController.get_analog(axisLeftY);
@@ -210,29 +193,34 @@ void opcontrol()
 
 		// Tank
 		// double leftAxisY = MasterController.get_analog(axisLeftY);
-	    // double rightAxisY = MasterController.get_analog(axisRightY);
+		// double rightAxisY = MasterController.get_analog(axisRightY);
 		// double leftVelocity = ((leftAxisY) * axisPercentBlue);
 		// double rightVelocity = ((-rightAxisY) * axisPercentBlue);
 
-		//INTAKE MOTORS
-		//Score HIGH
-		if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+		// INTAKE MOTORS
+		// Score HIGH
+		if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
+		{
 			scoreTop();
 		}
-		//Intake but not score
-		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+		// Intake but not score
+		else if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L2))
+		{
 			intakeSlow();
 		}
-		//Outtake
-		else if(MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1)||MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+		// Outtake
+		else if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1) || MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_L1))
+		{
 			outTake();
 		}
-		else {
+		else
+		{
 			intakeBrake();
 		}
-		//INTAKE WING
-		if(MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP)) {
-			if(togMOGO == 1)
+		// INTAKE WING
+		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+		{
+			if (togMOGO == 1)
 				togMOGO = 0;
 			else
 				togMOGO = 1;
@@ -241,13 +229,13 @@ void opcontrol()
 		}
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 
-		//GPS testing
+		// GPS testing
 		double head = gps.get_heading();
 		pros::c::gps_status_s_t test = gps.get_status();
 		double x = test.x;
 		double y = test.y;
 		MasterController.print(0, 0, "%f", head);
-		//MasterController.print(0, 10, "%f", y);
+		// MasterController.print(0, 10, "%f", y);
 		MasterController.clear_line(0);
 
 		//*********************************************
