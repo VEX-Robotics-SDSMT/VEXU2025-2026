@@ -1,7 +1,10 @@
 #include "main.h"
 #include "PID.h"
 
+#define MINESLIB_TEST_LINKING
 #include "MinesLib.h"
+
+
 
 #define L_FRONT 3//
 #define L_MID 2//
@@ -97,6 +100,7 @@ void autonomous()
 
 void opcontrol() 
 {
+    MinesLibTestLinking();
 
 	while (true) 
 	{
