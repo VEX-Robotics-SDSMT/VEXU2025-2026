@@ -111,7 +111,8 @@ void autonomous()
 
 void opcontrol()
 {
-	bool togMOGO = false;
+	bool togLift = false;
+	bool togWing = false;
 	while (true)
 	{
 		// ********************DRIVE********************
@@ -157,15 +158,25 @@ void opcontrol()
 			intakeBrake();
 		}
 
-		// INTAKE WING
+		// INTAKE LIFT
 		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
 		{
-			if (togMOGO == 1)
-				togMOGO = 0;
+			if (togLift == 1)
+				togLift = 0;
 			else
-				togMOGO = 1;
-			intakeLiftR.set_value(togMOGO);
-			intakeLiftL.set_value(togMOGO);
+				togLift = 1;
+			intakeLiftR.set_value(togLift);
+			intakeLiftL.set_value(togLift);
+		}
+
+		// WING
+		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+		{
+			if (togWing == 1)
+				togWing = 0;
+			else
+				togWing = 1;
+			wing.set_value(togWing);
 		}
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
 

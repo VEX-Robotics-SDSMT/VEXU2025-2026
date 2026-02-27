@@ -26,8 +26,9 @@
 #define I_FRONTL 2
 #define I_FRONTR 5
 
-#define TESTPNEU 1
-#define TESTPNEU1 2
+#define LIFT1 1
+#define LIFT2 2
+#define WING 5
 
 #define INTAKE_MOTOR_GEARSET redGearbox
 #define FLYWHEELS_MOTOR_GEARSET blueGearbox
@@ -65,6 +66,7 @@ extern Mines::MinesMotorGroup intakeWheels;
 
 extern pros::ADIDigitalOut intakeLiftL;
 extern pros::ADIDigitalOut intakeLiftR;
+extern pros::ADIDigitalOut wing;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;

@@ -25,8 +25,9 @@ pros::Motor IntakeFrontL(I_FRONTL, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeFrontR(I_FRONTR, pros::E_MOTOR_GEARSET_18, false);
 
 
-pros::ADIDigitalOut intakeLiftR(TESTPNEU);
-pros::ADIDigitalOut intakeLiftL(TESTPNEU1);
+pros::ADIDigitalOut intakeLiftR(LIFT1);
+pros::ADIDigitalOut intakeLiftL(LIFT2);
+pros::ADIDigitalOut wing(WING);
 
 std::vector<pros::Motor> leftDriveVector = {leftFrontTop, leftFrontBot, leftRearTop, leftRearBot};
 std::vector<pros::Motor> rightDriveVector = {rightFrontTop, rightFrontBot, rightRearTop, rightRearBot};
