@@ -44,5 +44,5 @@ uint8_t BLUE_GOAL_SIG_ID = 2;
 int requiredColorLoops = 3;
 const double ROLLER_TIMEOUT = 3000;
 
-bool skills = true;
-bool lower = false;
+bool skills = false;
+bool lower = true;
