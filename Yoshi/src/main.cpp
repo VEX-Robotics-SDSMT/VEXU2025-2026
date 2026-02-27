@@ -84,13 +84,19 @@ void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(.2, 0, 0.1); //0.2, 0, 0.1 for Luigi
+	drive.setDrivePIDVals(0.3, 0, 0); //0.2, 0, 0.1 for Luigi
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(1.4, 0.1, 0); //1.4, 0.1 for Luigi
+	drive.setTurnPIDVals(1.8, 0.1, 0); //1.4, 0.1 for Luigi
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
+
+	// drive.turnDegreesAbsolute(180);
+	// drive.turnDegreesAbsolute(0);
+
+	drive.driveTiles(500);
+	drive.driveTiles(-500);
 
 	
 }
@@ -159,7 +165,7 @@ void opcontrol()
 		}
 
 		// INTAKE LIFT
-		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A))
 		{
 			if (togLift == 1)
 				togLift = 0;
@@ -170,7 +176,7 @@ void opcontrol()
 		}
 
 		// WING
-		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
+		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
 		{
 			if (togWing == 1)
 				togWing = 0;
