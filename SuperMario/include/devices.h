@@ -21,6 +21,12 @@ const inline int RM4 = 7;
 const inline int IN1 = 8;
 const inline int IN2 = 9;
 
+//Encoder
+const inline int ENC = 21;
+
+//Inertial
+const inline int INERT = 20;
+
 //===============================================
 //Motor Groups
 //===============================================
