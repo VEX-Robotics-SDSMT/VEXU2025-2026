@@ -97,12 +97,12 @@ void autonomous()
 		// run this route
 		drive.driveTiles(1275);
 		drive.turnDegreesAbsolute(-45);
-		drive.driveTiles(250, 700);
+		drive.driveTiles(200, 700);
 		outTake();
 		pros::delay(700);
 		drive.driveTiles(-1700);
-		drive.turnDegreesAbsolute(180);
-		drive.driveTiles(250);
+		drive.turnDegreesAbsolute(182);
+		drive.driveTiles(150);
 	}
 	else
 	{
@@ -115,25 +115,26 @@ void autonomous()
 		drive.driveTiles(1900);
 		drive.turnDegreesAbsolute(180);
 	}
-	//unload loader
+	// unload loader
 	intakeSlow();
 	intakeDrop(intakeDropR, intakeDropL, 1);
 	pros::delay(500);
-	for(int i = 0; i < 5; i++) {
+	for (int i = 0; i < 5; i++)
+	{
 		drive.driveTiles(1000, 500);
 		drive.driveTiles(-50);
 	}
 	// lift intake
 	intakeBrake();
-	drive.driveTiles(-400);
-	drive.turnDegreesAbsolute(180);
+	drive.driveTiles(-400, 1000);
+	drive.turnDegreesAbsolute(180, 1000);
 	IntakeFront.move(-127);
 	pros::delay(200);
 	IntakeFront.brake();
 	intakeDrop(intakeDropR, intakeDropL, 0);
 	// drive forward for any missed ones
 	intakeSlow();
-	drive.turnDegreesAbsolute(184);
+	drive.turnDegreesAbsolute(184, 1000);
 	drive.driveTiles(500, 1000);
 	intakeBrake();
 	// drive back to score on long goal
@@ -142,14 +143,18 @@ void autonomous()
 	drive.driveTiles(-100, 1500);
 	pros::delay(1500);
 	intakeBrake();
-	drive.driveTiles(200);
+	drive.driveTiles(200, 800);
 	drive.driveTiles(-500, 800);
 	// drive to go park
 	drive.driveTiles(800);
-	// drive.turnDegreesAbsolute(80);
-	// drive.setMaxDriveAccel(0.4);
-	// drive.setMaxDriveSpeed(0.8);
-	// drive.driveTiles(-2000, 3000);
+
+	if (skills)
+	{
+		drive.turnDegreesAbsolute(80);
+		drive.setMaxDriveAccel(0.4);
+		drive.setMaxDriveSpeed(0.8);
+		drive.driveTiles(-2000, 3000);
+	}
 
 	drive.killPIDs();
 }
@@ -217,6 +222,29 @@ void opcontrol()
 		{
 			intakeBrake();
 		}
+
+		// OSCILLATE
+		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_X))
+		{
+			for (int i = 0; i < 3; i++)
+			{
+				leftDriveMotors.move(-60);
+				rightDriveMotors.move(-60);
+				pros::delay(200);
+				leftDriveMotors.brake();
+				rightDriveMotors.brake();
+				pros::delay(400);
+				rightDriveMotors.move(60);
+				leftDriveMotors.move(60);
+				pros::delay(200);
+				leftDriveMotors.brake();
+				rightDriveMotors.brake();
+				pros::delay(400);
+			}
+			leftDriveMotors.brake();
+			rightDriveMotors.brake();
+		}
+
 		// INTAKE WING
 		if (MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_A) || MasterController.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_UP))
 		{
