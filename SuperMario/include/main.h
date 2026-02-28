@@ -6,6 +6,7 @@
 
 #include "api.h"
 #include "MinesLib.h"
+#include "devices.h"
 
 #ifdef __cplusplus
 extern "C" {
