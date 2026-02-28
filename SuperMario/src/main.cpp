@@ -64,13 +64,11 @@ void opcontrol() {
 	pros::Controller master(pros::E_CONTROLLER_MASTER);
 	pros::Motor motor(1,pros::v5::MotorGears::green,pros::v5::MotorEncoderUnits::degrees);
 
-	Mines::PID pid(10, .001, .5, .5);
+	Mines::PID pid(90, .001, .5, .0005);
 	pid.setTarget(5100);
 
 	while(true)
 	{
-		pid.calculate(motor.get_position());
-		pid.reset();
 		motor.move(pid.calculate(motor.get_position()));
 		pros::delay(10);
 	}
