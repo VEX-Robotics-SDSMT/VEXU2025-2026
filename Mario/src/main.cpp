@@ -5,37 +5,9 @@
 #include "pros/rtos.h"
 #include "vexGPS.h"
 
-// globals
-
-/**
- * A callback function for LLEMU's center button.
- *
- * When this callback is fired, it will toggle line 2 of the LCD text between
- * "I was pressed!" and nothing.
- */
 
 using namespace Mines;
 
-void on_center_button()
-{
-	static bool pressed = false;
-	pressed = !pressed;
-	if (pressed)
-	{
-		pros::lcd::set_text(2, "I was pressed!");
-	}
-	else
-	{
-		pros::lcd::clear_line(2);
-	}
-}
-
-/**
- * Runs initialization code. This occurs as soon as the program is started.
- *
- * All other competition modes are blocked by initialize; it is recommended
- * to keep execution time for this mode under a few seconds.
- */
 
 void initialize()
 {
@@ -70,13 +42,13 @@ void autonomous()
 	{
 		drive.driveTiles(1100, default_timeout+1000);
 		drive.turnDegreesAbsolute(36, default_timeout);
-		drive.driveTiles(350, default_timeout);
+		drive.driveTiles(50, default_timeout);
 		intakeScoreTop(true);
 		pros::delay(800);
 		intakeBrake();
 		drive.driveTiles(-550, default_timeout);
 		drive.turnDegreesAbsolute(50, default_timeout);
-		drive.driveTiles(-1200, default_timeout);
+		drive.driveTiles(-800, default_timeout);
 		drive.turnDegreesAbsolute(185, default_timeout);
 	}
 	else {
@@ -105,6 +77,7 @@ void autonomous()
 			pros::delay(500);
 			intakeBasket();
 			drive.driveTiles(400, default_timeout);
+			drive.turnDegreesAbsolute(180, default_timeout);
 			
 		}
 	}
@@ -112,18 +85,16 @@ void autonomous()
 	drive.driveTiles(-400, default_timeout);
 	drive.turnDegreesAbsolute(90, default_timeout + 500);
 	intakeOut();
-	pros::delay(400);
 	intakeBasket();
 	pros::delay(500);
 	Arm.set_value(0);
 	Arm2.set_value(0);
-	drive.driveTiles(-200, default_timeout);
-	drive.turnDegreesAbsolute(0, default_timeout);
+	drive.turnDegreesAbsolute(5, default_timeout);
 	
 	//go up to long goal
-	drive.driveTiles(800, default_timeout + 500);
+	drive.driveTiles(620, default_timeout + 500);
 	intakeScoreTop();
-	pros::delay(3000);
+	pros::delay(4000);
 	drive.driveTiles(-500);
 	intakeBrake();
 
@@ -132,19 +103,21 @@ void autonomous()
 	drive.killPIDs();
 }
 
+
 /**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
- * If no competition control is connected, this function will run immediately
- * following initialize().
- *
- * If the robot is disabled or communications is lost, the
- * operator control task will be stopped. Re-enabling the robot will restart the
- * task, not resume it from where it left off.
+ * Runs the text based controller selector to setup robot configuration
  */
+void runSelector()
+{
+	MasterController.clear();
+	MasterController.print(0, 0, "Running Selector...\n");
+
+	while(true)
+	{
+		
+		pros::delay(20);
+	}
+}
 
 void opcontrol()
 {
@@ -169,6 +142,9 @@ void opcontrol()
 
 	bool togArm = 0, togColor = 0;
 	colorSensor.set_led_pwm(100);
+
+	//runSelector();
+
 	while (true)
 	{
 		// ********************DRIVE********************
@@ -207,7 +183,15 @@ void opcontrol()
 		// Basket
 		else if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R2))
 		{
-			intakeBasket();
+			//check if motor is stalling
+			if(IntakeFront.get_torque() >= .89)
+			{
+				IntakeFront.move(127);
+			}
+			else
+			{
+				intakeBasket();
+			}
 		}
 		// Outtake
 		else if (MasterController.get_digital(pros::E_CONTROLLER_DIGITAL_R1))

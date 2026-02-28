@@ -11,8 +11,6 @@ FWDIR:=$(ROOT)/firmware
 BINDIR=$(ROOT)/bin
 SRCDIR=$(ROOT)/src
 INCDIR=$(ROOT)/include
-INCDIR += $(ROOT)/vendor
-INCDIR += $(ROOT)/MinesLib/include
 
 WARNFLAGS+=
 EXTRA_CFLAGS=
@@ -24,8 +22,6 @@ USE_PACKAGE:=1
 # Add libraries you do not wish to include in the cold image here
 # EXCLUDE_COLD_LIBRARIES:= $(FWDIR)/your_library.a
 EXCLUDE_COLD_LIBRARIES:= 
-
-LIBRARIES += $(ROOT)/MinesLib/bin/MinesLib.a
 
 # Set this to 1 to add additional rules to compile your project as a PROS library template
 IS_LIBRARY:=0
@@ -44,9 +40,6 @@ EXCLUDE_SRC_FROM_LIB+=$(foreach file, $(SRCDIR)/main,$(foreach cext,$(CEXTS),$(f
 TEMPLATE_FILES=$(INCDIR)/$(LIBNAME)/*.h $(INCDIR)/$(LIBNAME)/*.hpp
 
 .DEFAULT_GOAL=quick
-
-MinesLib/bin/MinesLib.a:
-	$(MAKE) -C MinesLib library
 
 ################################################################################
 ################################################################################
