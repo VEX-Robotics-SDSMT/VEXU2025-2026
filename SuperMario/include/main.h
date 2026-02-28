@@ -1,11 +1,11 @@
-#ifndef _PROS_MAIN_H_
-#define _PROS_MAIN_H_
+#pragma once
 
 #define PROS_USE_SIMPLE_NAMES
 
 #define PROS_USE_LITERALS
 
 #include "api.h"
+#include "MinesLib.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -25,5 +25,3 @@ void opcontrol(void);
  */
 //#include <iostream>
 #endif
-
-#endif  // _PROS_MAIN_H_
