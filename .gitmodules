@@ -1,0 +1,3 @@
+[submodule "SuperMario/MinesLib"]
+	path = SuperMario/MinesLib
+	url = https://github.com/connoraxtell-mines/MinesLib
