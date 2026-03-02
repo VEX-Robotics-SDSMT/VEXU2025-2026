@@ -20,7 +20,7 @@ pros::Motor rightRearBot(R_BREAR, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeBack(I_BACK, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeBot(I_BOT, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeMid(I_MID, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor IntakeFront(I_FRONT, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor IntakeFront(I_FRONT, pros::E_MOTOR_GEARSET_18, false);
 pros::Motor IntakeTop1(I_TOP1, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeTop2(I_TOP2, pros::E_MOTOR_GEARSET_06, false);
 
