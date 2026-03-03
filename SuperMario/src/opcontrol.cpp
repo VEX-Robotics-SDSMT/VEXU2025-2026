@@ -36,17 +36,16 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
  */
 void opcontrol() {
 	int target;
-	pros::Controller master(pros::E_CONTROLLER_MASTER);
-	pros::Motor motor(1,pros::v5::MotorGears::green,pros::v5::MotorEncoderUnits::degrees);
+	
+	Mines::Drivetrain drive(&leftMotors, &rightMotors, &enc, &imu);
+	
+	drive.setDrivePID(1.0, 1.0, 1.0);
+	drive.setTurnPID(1.0, 1.0, 1.0);
 
-	Mines::PID pid(5, .001, .5, .5);
-	target = 5100;
-	pid.setTarget(target);
 
-	while(true)
-	{
-		motor.move(pid.calculate(motor.get_position()));
-		pros::delay(10);
-	}
+	drive.turnTo(90);
+	drive.driveDistance(24);
+	
+	pros::delay(100000);
 
 }

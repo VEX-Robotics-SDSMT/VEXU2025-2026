@@ -25,28 +25,30 @@ const inline int8_t IN2 = 9;
 const inline int8_t ENC = 21;
 
 //Inertial
-const inline uint8_t INERT = 20;
+const inline uint8_t INERT = 15;
+
+inline pros::Controller master(pros::controller_id_e_t::E_CONTROLLER_MASTER);
 
 //===============================================
 //Motor Groups
 //===============================================
 
 //Drive Train Motors
-const inline pros::MotorGroup leftMotors({-LM1, -LM2, -LM3, -LM4});
-const inline pros::MotorGroup rightMotors({RM1, RM2, RM3, RM4});
+inline pros::MotorGroup leftMotors({-LM1, -LM2, -LM3, -LM4});
+inline pros::MotorGroup rightMotors({RM1, RM2, RM3, RM4});
 
 //Intake Group
-const inline pros::MotorGroup intakeMotors({IN1, IN2});
+inline pros::MotorGroup intakeMotors({IN1, IN2});
 
 //===============================================
 //Sensors
 //===============================================
 
 //Inertial Senor
-const inline pros::Imu imu(INERT);
+inline pros::Imu imu(INERT);
 
 //Rotational Senor
-const inline pros::Rotation enc(ENC);
+inline pros::Rotation enc(ENC);
 
 //===============================================
 //Pneumatics
