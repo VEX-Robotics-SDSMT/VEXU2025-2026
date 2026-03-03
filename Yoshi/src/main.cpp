@@ -92,11 +92,40 @@ void autonomous()
 	drive.setMaxTurnSpeed(0.8);
 	drive.setMaxDriveAccel(0.12);
 
-	// drive.turnDegreesAbsolute(180);
-	// drive.turnDegreesAbsolute(0);
+	//START MATCH AUTO AND SKILLS
+	//start with rear facing loaders
 
-	drive.driveTiles(500);
-	drive.driveTiles(-500);
+	//drive toward loader
+	drive.driveTiles(-450, 800);
+	drive.driveTiles(-450, 800);
+	drive.turnDegreesAbsolute(-90, 800);
+	intakeSlow();
+	drive.driveTiles(200, 500);
+	drive.driveTiles(200, 500);
+	drive.driveTiles(200, 200);
+
+	//pull blocks from loaders
+	drive.setMaxDriveSpeed(0.2);
+	for(int i = 0; i < 4; i++) {
+		drive.driveTiles(-100, 400);
+		drive.driveTiles(100, 400);
+	}
+
+	//turn towards goal
+	intakeBrake();
+	drive.driveTiles(-500, 800);
+	drive.turnDegreesAbsolute(90);
+	intakeWheels.move(127);
+	drive.driveTiles(500, 800);
+	intakeLiftR.set_value(1);
+	intakeLiftL.set_value(1);
+
+	drive.driveTiles(500, 800);
+	scoreTop();
+	
+
+
+
 
 	
 }
