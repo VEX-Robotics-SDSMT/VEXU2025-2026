@@ -2,6 +2,11 @@
 #include "pros/motor_group.hpp"
 
 //===============================================
+//Controller
+//===============================================
+inline pros::Controller master(pros::controller_id_e_t::E_CONTROLLER_MASTER);
+
+//===============================================
 //Ports
 //===============================================
 
@@ -27,7 +32,11 @@ const inline int8_t ENC = 21;
 //Inertial
 const inline uint8_t INERT = 15;
 
-inline pros::Controller master(pros::controller_id_e_t::E_CONTROLLER_MASTER);
+//Pneumatics
+const inline char HOOD_PORT = 'F';
+const inline char ARM_PORT = 'H';
+const inline char LIFT_PORT = 'G';
+
 
 //===============================================
 //Motor Groups
@@ -53,3 +62,6 @@ inline pros::Rotation enc(ENC);
 //===============================================
 //Pneumatics
 //===============================================
+inline pros::adi::Pneumatics hood(HOOD_PORT, false);
+inline pros::adi::Pneumatics arm(ARM_PORT, false);
+inline pros::adi::Pneumatics lift(LIFT_PORT, false);

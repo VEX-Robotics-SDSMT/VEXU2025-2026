@@ -9,6 +9,8 @@
 #include "MinesLib.h"
 #include "devices.h"
 
+void extern leftAutonRoute(void);
+
 #ifdef __cplusplus
 extern "C" {
 #endif

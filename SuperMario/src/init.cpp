@@ -8,8 +8,12 @@
  * to keep execution time for this mode under a few seconds.
  */
 
-void initialize() {
+void initialize() 
+{
 	pros::lcd::initialize();
+	hood.retract();
+	arm.retract();
+	lift.retract();
 }
 
 /**
