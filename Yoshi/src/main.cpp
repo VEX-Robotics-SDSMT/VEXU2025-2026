@@ -89,43 +89,83 @@ void autonomous()
 	drive.setTurnPIDVals(1.8, 0.1, 0); //1.4, 0.1 for Luigi
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
-	drive.setMaxTurnSpeed(0.8);
+	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
+
 
 	//START MATCH AUTO AND SKILLS
 	//start with rear facing loaders
 
 	//drive toward loader
-	drive.driveTiles(-450, 800);
-	drive.driveTiles(-450, 800);
+	drive.driveTiles(-300, 800);
+	drive.driveTiles(-300, 800);
+	drive.driveTiles(-350, 800);
 	drive.turnDegreesAbsolute(-90, 800);
 	intakeSlow();
 	drive.driveTiles(200, 500);
 	drive.driveTiles(200, 500);
-	drive.driveTiles(200, 200);
-
-	//pull blocks from loaders
-	drive.setMaxDriveSpeed(0.2);
-	for(int i = 0; i < 4; i++) {
-		drive.driveTiles(-100, 400);
-		drive.driveTiles(100, 400);
-	}
+	
+	//intake blocks
+	pros::delay(1000);
+	drive.driveTiles(-100, 200);
+	pros::delay(1500);
+	drive.driveTiles(100, 500);
+	drive.driveTiles(-90, 100);
+	pros::delay(500);
+	drive.driveTiles(-100, 200);
+	pros::delay(2000);
 
 	//turn towards goal
 	intakeBrake();
-	drive.driveTiles(-500, 800);
-	drive.turnDegreesAbsolute(90);
 	intakeWheels.move(127);
-	drive.driveTiles(500, 800);
+	drive.driveTiles(-250, 800);
+	outTake();
+	pros::delay(500);
+	intakeSlow();
+	
+	// drive.setMaxTurnSpeed(0.4);
+	drive.turnDegreesAbsolute(88, 1200);
+	// pros::delay(1000);
+	// intakeLiftR.set_value(1);
+	// intakeLiftL.set_value(1);
+	// drive.setMaxDriveSpeed(0.1);
+	drive.driveTiles(350, 500);
+	drive.turnDegreesAbsolute(97, 800);
+	drive.driveTiles(350, 800);
+	intakeWheels.move(127);
+	drive.driveTiles(350, 800);
+	drive.turnDegreesAbsolute(94, 1200);
+	intakeWheels.move(127);
 	intakeLiftR.set_value(1);
 	intakeLiftL.set_value(1);
-
-	drive.driveTiles(500, 800);
+	drive.driveTiles(500, 1000);
+	drive.turnDegreesAbsolute(88);
 	scoreTop();
-	
+	pros::delay(5000);
+	intakeBrake();
+	intakeLiftR.set_value(0);
+	intakeLiftL.set_value(0);
+	pros::delay(500);
+	drive.driveTiles(-50, 100);
+	pros::delay(500);
+	drive.driveTiles(-350, 1000);
+	drive.driveTiles(-350, 1000);
+
+	//turn alongside goal
+	wing.set_value(1);
+	drive.turnDegreesAbsolute(60, 800);
+	drive.driveTiles(350, 800);
+	drive.driveTiles(350, 800);
+	drive.turnDegreesAbsolute(120);
+	drive.driveTiles(350, 800);
+	wing.set_value(0);
+	drive.turnDegreesAbsolute(90, 800);
+	drive.driveTiles(800, 1000);
+	drive.turnDegreesAbsolute(100, 800);
+	wing.set_value(1);
 
 
-
+	drive.killPIDs();
 
 	
 }

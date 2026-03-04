@@ -21,6 +21,7 @@ pros::Motor IntakeRear(I_BACK, pros::E_MOTOR_GEARSET_06, true);
 pros::Motor IntakeMid(I_MID, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeBot(I_BOT, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeTop(I_TOP, pros::E_MOTOR_GEARSET_18, true);
+pros::Motor IntakeScore(I_SCORE, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeFrontL(I_FRONTL, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeFrontR(I_FRONTR, pros::E_MOTOR_GEARSET_18, false);
 

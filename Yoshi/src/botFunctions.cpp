@@ -39,6 +39,7 @@ void intakeSlow() {
     IntakeTop.move(40);
     IntakeRear.move(80);
     intakeWheels.move(127);
+    IntakeScore.move(-50);
 }
 
 void scoreTop() {
@@ -47,6 +48,7 @@ void scoreTop() {
     IntakeRear.move(127);
     IntakeTop.move(127);
     intakeWheels.move(127);
+    IntakeScore.move(127);
 }
 
 void scoreMid() {
@@ -61,6 +63,7 @@ void outTake() {
     IntakeRear.move(-127);
     IntakeTop.move(-127);
     intakeWheels.move(-127);
+    IntakeScore.move(-127);
 }
 
 void intakeBrake() {
@@ -69,6 +72,7 @@ void intakeBrake() {
     IntakeRear.brake();
     IntakeTop.brake();
     intakeWheels.brake();
+    IntakeScore.brake();
 }
 
 void driveLoop(Mines::MinesMotorGroup leftMotorGroup, Mines::MinesMotorGroup rightMotorGroup, double leftVelocity, double rightVelocity)

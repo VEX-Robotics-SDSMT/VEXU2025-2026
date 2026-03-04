@@ -23,6 +23,7 @@
 #define I_MID 3
 #define I_BACK 8
 #define I_TOP 7
+#define I_SCORE 9
 #define I_FRONTL 2
 #define I_FRONTR 5
 
@@ -54,6 +55,7 @@ extern pros::Motor IntakeRear;
 extern pros::Motor IntakeBot;
 extern pros::Motor IntakeMid;
 extern pros::Motor IntakeTop;
+extern pros::Motor IntakeScore;
 extern pros::Motor IntakeFrontR;
 extern pros::Motor IntakeLeftR;
 
