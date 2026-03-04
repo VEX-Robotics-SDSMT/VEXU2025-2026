@@ -34,18 +34,33 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
  * operator control task will be stopped. Re-enabling the robot will restart the
  * task, not resume it from where it left off.
  */
+
 void opcontrol() {
+
+
 	int target;
 	
 	Mines::Drivetrain drive(&leftMotors, &rightMotors, &enc, &imu);
-	
-	drive.setDrivePID(1.0, 1.0, 1.0);
-	drive.setTurnPID(1.0, 1.0, 1.0);
+	drive.capVoltage(127);
 
 
-	drive.turnTo(90);
-	drive.driveDistance(24);
-	
+	drive.setDrivePID(.0009, 1, 0.0, 3);
+	drive.setTurnPID(1.8, 0.6, 0.0, 1.0);
+	drive.driveDistance(48, 5000, 130);
+	drive.turnTo(86, 1.5, 130);
+	drive.driveDistance(48, 5000, 190);
+	drive.turnTo(83, 1.5, 190);
+	drive.driveDistance(48, 5000);
+	rightMotors.move(0);
+	leftMotors.move(0);
+
+	/**
+	 while(true)
+	 {
+		tankDrive(master,leftMotors,rightMotors);
+		pros::delay(20);
+	 }
+	 */
 	pros::delay(100000);
 
 }
