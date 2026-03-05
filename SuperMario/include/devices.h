@@ -11,10 +11,10 @@ inline pros::Controller master(pros::controller_id_e_t::E_CONTROLLER_MASTER);
 //===============================================
 
 //Left Motors
-const inline int8_t LM1 = 16;
-const inline int8_t LM2 = 17;
-const inline int8_t LM3 = 18;
-const inline int8_t LM4 = 19;
+const inline int8_t LM1 = 17;
+const inline int8_t LM2 = 18;
+const inline int8_t LM3 = 19;
+const inline int8_t LM4 = 20;
 
 //Right Motors
 const inline int8_t RM1 = 4;
@@ -30,7 +30,7 @@ const inline int8_t IN2 = 9;
 const inline int8_t ENC = 21;
 
 //Inertial
-const inline uint8_t INERT = 15;
+const inline uint8_t INERT = 16;
 
 //Pneumatics
 const inline char HOOD_PORT = 'F';
