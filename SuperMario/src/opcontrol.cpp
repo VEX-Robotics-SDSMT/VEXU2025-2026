@@ -1,5 +1,10 @@
 #include "main.h"
 
+int32_t mapExponential(int32_t input)
+{
+    return (input * input * input)/17000;
+}
+
 
 void tankDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right)
 {
@@ -7,10 +12,12 @@ void tankDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& 
 	right.move(controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_Y));
 }
 
-void leftArcadeDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right)
+void leftArcadeDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right, pros::controller_analog_e_t axis1, pros::controller_analog_e_t axis2)
 {
-	left.move(controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y) + controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_X ));
-	right.move(controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y) - controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_X ));
+	int32_t drivePower = mapExponential(controller.get_analog(axis1));
+	int32_t turnPower = std::clamp(mapExponential(controller.get_analog(axis2)), (int32_t)-70, (int32_t)70);
+	left.move(drivePower +  turnPower);
+	right.move(drivePower -  turnPower);
 }
 
 void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right)
@@ -37,18 +44,39 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
 
 
 void opcontrol() {
-
-	leftAutonRoute();
-
-
-
-	/**
 	 while(true)
 	 {
-		tankDrive(master,leftMotors,rightMotors);
+		leftArcadeDrive(master,leftMotors,rightMotors, pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y, 
+			pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_X);
+		
+		if(master.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_R1))
+		{
+			intakeMotors.move(127);
+		}
+		else if(master.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_R2))
+		{
+			intakeMotors.move(-127);
+		}
+		else
+		{
+			intakeMotors.move(0);
+		}
+
+		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_UP))
+		{
+			lift.toggle();
+		}
+
+		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_Y))
+		{
+			hood.toggle();
+		}
+		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_A))
+		{
+			arm.toggle();
+			lift.extend();
+		}
 		pros::delay(20);
 	 }
-	 */
-	pros::delay(100000);
 
 }

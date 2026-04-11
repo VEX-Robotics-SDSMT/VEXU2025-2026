@@ -8,6 +8,8 @@
 #include "api.h"
 #include "MinesLib.h"
 #include "devices.h"
+#include "configTypes.h"
+#include "globals.h"
 
 void extern leftAutonRoute(void);
 
