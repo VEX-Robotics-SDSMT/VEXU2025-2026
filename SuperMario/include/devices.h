@@ -31,6 +31,7 @@ const inline int8_t ENC = 4;
 
 //Inertial
 const inline uint8_t INERT = 16;
+const inline uint8_t INERT = 16;
 
 //Pneumatics
 const inline char HOOD_PORT = 'F';
