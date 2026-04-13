@@ -2,6 +2,7 @@
 #include "display/lv_misc/lv_task.h"
 #include "pros/rtos.h"
 #include "pros/rtos.hpp"
+#include <algorithm>
 
 using namespace std;
 

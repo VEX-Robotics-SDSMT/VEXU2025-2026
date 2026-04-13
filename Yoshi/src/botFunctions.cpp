@@ -36,7 +36,7 @@ void intakeDrop(pros::ADIDigitalOut left, pros::ADIDigitalOut right, bool value)
 void intakeSlow() {
     IntakeBot.move(127);
     IntakeMid.move(80);
-    IntakeTop.move(40);
+    IntakeTop.move(80);
     IntakeRear.move(80);
     intakeWheels.move(127);
     IntakeScore.move(-50);
