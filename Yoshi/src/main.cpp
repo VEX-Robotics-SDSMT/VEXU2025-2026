@@ -2,6 +2,7 @@
 #include "DiffDrive.h"
 #include "botFunctions.h"
 #include "globals.h"
+#include "Logger.h"
 #include "pros/rtos.h"
 #include "vexGPS.h"
 
@@ -84,114 +85,19 @@ void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(0.3, 0, 0); //0.2, 0, 0.1 for Luigi
+	drive.setDrivePIDVals(0.1, 0, 0); //0.3, 0, 0 for Luigi
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(1.8, 0.1, 0); //1.4, 0.1 for Luigi
+	drive.setTurnPIDVals(0.2, 0, 0); //1.8, 0.1 for Luigi
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
 
-	if(skills) {
-	// 	//drive toward loader
-	// drive.driveTiles(-300, 800);
-	// drive.driveTiles(-300, 800);
-	// drive.driveTiles(-250, 800);
-	// drive.turnDegreesAbsolute(-93, 800);
-	// intakeSlow();
-	// drive.driveTiles(250, 500);
-	// drive.driveTiles(200, 500);
-	
-	// //intake blocks
-	// pros::delay(1000);
-	// drive.driveTiles(-100, 200);
-	// pros::delay(1500);
-	// drive.driveTiles(100, 500);
-	// drive.driveTiles(-90, 100);
-	// pros::delay(500);
-	// drive.driveTiles(-100, 200);
-	// pros::delay(2000);
+	drive.turnDegreesAbsolute(90);
+	//drive.turnDegreesAbsolute(0);
 
-	// 	//toward park zone
-	// 	drive.driveTiles(-250, 800);
-	// 	drive.turnDegreesAbsolute(160, 1000);
-	// 	outTake();
-	 	drive.killPIDs();
-
-		IntakeBot.move(100);
-    	IntakeMid.move(100);
-    	IntakeTop.move(100);
-    	IntakeScore.move(100);
-
-		pros::delay(2000);
-
-		IntakeBot.brake();
-    	IntakeMid.brake();
-    	IntakeTop.brake();
-    	IntakeScore.brake();
-
-
-	}
-	else {
-		//drive toward loader
-	drive.driveTiles(-300, 800);
-	drive.driveTiles(-300, 800);
-	drive.driveTiles(-250, 800);
-	//drive.driveTiles(-950, 1500);
-	drive.turnDegreesAbsolute(-93, 800);
-	intakeSlow();
-	drive.driveTiles(250, 500);
-	drive.driveTiles(200, 500);
-	
-	//intake blocks
-	pros::delay(1000);
-	drive.driveTiles(-100, 200);
-	pros::delay(1500);
-	drive.driveTiles(100, 500);
-	drive.driveTiles(-90, 100);
-	pros::delay(500);
-	drive.driveTiles(-100, 200);
-	pros::delay(1000);
-
-	//turn towards goal
-	intakeBrake();
-	intakeWheels.move(127);
-	drive.driveTiles(-250, 800);
-	outTake();
-	pros::delay(500);
-	intakeSlow();
-	
-	drive.turnDegreesAbsolute(88, 1200);
-	drive.driveTiles(350, 500);
-	drive.turnDegreesAbsolute(70, 800);
-	drive.driveTiles(350, 800);
-	intakeWheels.move(127);
-	drive.turnDegreesAbsolute(97, 1200);
-	drive.driveTiles(350, 800);
-	
-	intakeWheels.move(127);
-	intakeLiftR.set_value(1);
-	intakeLiftL.set_value(1);
-	drive.driveTiles(500, 1000);
-	drive.turnDegreesAbsolute(100, 1000);
-	scoreTop();
-	drive.driveTiles(1000, 1000);
-	pros::delay(4000);
-	intakeLiftR.set_value(0);
-	intakeLiftL.set_value(0);
-	intakeBrake();
-	pros::delay(500);
-	drive.driveTiles(-50, 100);
-	pros::delay(500);
-	drive.driveTiles(-350, 1000);
-	drive.driveTiles(-250, 1000);
-
-	//turn alongside goal
-	// wing.set_value(1);
-	drive.turnDegreesAbsolute(-90, 800); //50 for skills
-	}
-
-	
+	// drive.driveTiles(500);
+	// drive.driveTiles(-500);
 
 	drive.killPIDs();
 
@@ -228,7 +134,7 @@ void opcontrol()
 
 		// 1 stick arcade
 		double leftAxisY = MasterController.get_analog(axisLeftY);
-		double leftAxisX = MasterController.get_analog(axisLeftX);
+		double leftAxisX = -1 * MasterController.get_analog(axisLeftX);
 		double rightAxisX = MasterController.get_analog(axisRightX);
 		double aimVelocityLeft = (rightAxisX) * 0.06;
 		double aimVelocityRight = -rightAxisX * 0.06;

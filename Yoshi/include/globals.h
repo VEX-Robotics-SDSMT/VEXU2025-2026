@@ -4,7 +4,7 @@
 #include "api.h"
 #include "MinesMotorGroup.h"
 
-#define INERTIAL_SENSOR 17
+#define INERTIAL_SENSOR 14
 #define VISION_SENSOR 22 //unused so far
 #define VEX_GPS 21 //unused so far
 #define ENCODER_TOP 1 //unused so far

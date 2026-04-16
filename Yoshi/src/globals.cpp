@@ -5,17 +5,17 @@ pros::Controller MasterController (pros::E_CONTROLLER_MASTER);
 
 pros::Imu intertialSensor(INERTIAL_SENSOR);
 pros::Vision vision(VISION_SENSOR);
-pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, false);
+pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, true);
 pros::GPS gps(VEX_GPS);
 
-pros::Motor leftFront(L_FRONT, pros::E_MOTOR_GEARSET_06, true);
-pros::Motor leftFrontMid(L_FRONTM, pros::E_MOTOR_GEARSET_06, true);
-pros::Motor leftRearMid(L_REARM, pros::E_MOTOR_GEARSET_06, true);
-pros::Motor leftRear(L_REAR, pros::E_MOTOR_GEARSET_06, true);
-pros::Motor rightFront(R_FRONT, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor rightFrontMid(R_FRONTM, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor rightRearMid(R_REARM, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor rightRear(R_REAR, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor leftFront(L_FRONT, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor leftFrontMid(L_FRONTM, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor leftRearMid(L_REARM, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor leftRear(L_REAR, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor rightFront(R_FRONT, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor rightFrontMid(R_FRONTM, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor rightRearMid(R_REARM, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor rightRear(R_REAR, pros::E_MOTOR_GEARSET_06, true);
 
 pros::Motor IntakeRear(I_BACK, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeMid(I_MID, pros::E_MOTOR_GEARSET_06, true);
