@@ -4,32 +4,32 @@
 #include "api.h"
 #include "MinesMotorGroup.h"
 
-#define INERTIAL_SENSOR 1
+#define INERTIAL_SENSOR 14
 #define VISION_SENSOR 22 //unused so far
 #define VEX_GPS 21 //unused so far
-#define ENCODER_TOP 3 //unused so far
-#define ENCODER_BOTTOM 4 //unused so far
+#define ENCODER_TOP 1 //unused so far
+#define ENCODER_BOTTOM 2 //unused so far
 
-#define L_FRONT_T 14
-#define L_FRONT_B 13
-#define L_REAR_T 11
-#define L_REAR_B 12
-#define R_FRONT_T 17
-#define R_FRONT_B 18
-#define R_REAR_T 19
-#define R_REAR_B 20
+#define L_FRONT 20
+#define L_FRONTM 3
+#define L_REARM 2
+#define L_REAR 1
+#define R_FRONT 10
+#define R_FRONTM 13
+#define R_REARM 12
+#define R_REAR 11
 
-#define I_BOT 16
-#define I_MID 3
-#define I_BACK 8
-#define I_TOP 7
-#define I_SCORE 9
-#define I_FRONTL 2
+#define I_BOT 21
+#define I_BACK 16
+#define I_MID 19
+#define I_TOP 18
+#define I_SCORE 16
+#define I_FRONTL 9
 #define I_FRONTR 5
 
-#define LIFT1 1
-#define LIFT2 2
-#define WING 5
+#define LIFT1 8
+#define LIFT2 7
+#define WING 6
 
 #define INTAKE_MOTOR_GEARSET redGearbox
 #define FLYWHEELS_MOTOR_GEARSET blueGearbox
