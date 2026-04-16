@@ -24,13 +24,12 @@ const inline int8_t RM4 = 9;
 
 //Intake Motors
 const inline int8_t IN1 = 20;
-const inline int8_t IN2 = 21;
+const inline int8_t IN2 = 5;
 
 //Encoder
 const inline int8_t ENC = 4;
 
 //Inertial
-const inline uint8_t INERT = 16;
 const inline uint8_t INERT = 16;
 
 //Pneumatics
@@ -48,7 +47,7 @@ inline pros::MotorGroup leftMotors({-LM1, -LM2, -LM3, -LM4});
 inline pros::MotorGroup rightMotors({RM1, RM2, RM3, RM4});
 
 //Intake Group
-inline pros::MotorGroup intakeMotors({IN1, IN2});
+inline pros::MotorGroup intakeMotors({IN1, -IN2});
 
 //===============================================
 //Sensors

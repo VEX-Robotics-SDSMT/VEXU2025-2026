@@ -1,6 +1,5 @@
 #include "main.h"
 
-
 struct AutonRoute
 {
 	const char* name;
@@ -69,6 +68,7 @@ void initialize()
 	master.clear();
 	pros::delay(110);
 	master.print(0,0,"Ready for match!");
+
 }
 
 /**
