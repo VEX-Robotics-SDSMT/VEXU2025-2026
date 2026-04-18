@@ -1,5 +1,7 @@
 #include "main.h"
 
+//#define ENABLE_TERMINAL
+
 struct AutonRoute
 {
 	const char* name;
@@ -14,6 +16,18 @@ static const std::vector<AutonRoute> autonomousRouteOptions =
 	{"Right Skills", RouteType::skillsRight}
 };
 
+void inputReadingTask()
+{
+	pros::delay(1000);
+	while(true)
+	{
+		putchar(getchar());
+		putchar('\n');
+		pros::delay(100);
+	}
+}
+
+
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -23,13 +37,37 @@ static const std::vector<AutonRoute> autonomousRouteOptions =
 
 void initialize() 
 {
+	
 	pros::screen::set_eraser(pros::Color::black);
 	pros::screen::erase();
 
+	drive.init();
+
+	#ifdef ENABLE_TERMINAL
+	pros::Task* task = new pros::Task(inputReadingTask);
+	#endif
+
+	/*
 	hood.retract();
 	arm.retract();
 	lift.retract();
 
+	
+	*/
+
+}
+
+/**
+ * Runs after initialize(), and before autonomous when connected to the Field
+ * Management System or the VEX Competition Switch. This is intended for
+ * competition-specific initialization routines, such as an autonomous selector
+ * on the LCD.
+ *
+ * This task will exit when the robot is enabled and autonomous or opcontrol
+ * starts.
+ */
+void competition_initialize() 
+{
 	std::size_t size = autonomousRouteOptions.size();
 	std::size_t idx = 0;
 	std::size_t lastIdx = 0;
@@ -68,16 +106,4 @@ void initialize()
 	master.clear();
 	pros::delay(110);
 	master.print(0,0,"Ready for match!");
-
 }
-
-/**
- * Runs after initialize(), and before autonomous when connected to the Field
- * Management System or the VEX Competition Switch. This is intended for
- * competition-specific initialization routines, such as an autonomous selector
- * on the LCD.
- *
- * This task will exit when the robot is enabled and autonomous or opcontrol
- * starts.
- */
-void competition_initialize() {}

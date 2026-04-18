@@ -19,15 +19,15 @@ const inline int8_t LM4 = 20;
 
 //Right Motors
 const inline int8_t RM1 = 10;
-const inline int8_t RM2 = 11;
+const inline int8_t RM2 = 13;
 const inline int8_t RM3 = 12;
-const inline int8_t RM4 = 21;
+const inline int8_t RM4 = 11;
 
 //Intake Motors
-const inline int8_t IN1 = 16;
-const inline int8_t IN2 = 18;
+const inline int8_t IN1 = 21;
+const inline int8_t IN2 = 16;
 const inline int8_t IN3 = 19;
-const inline int8_t IN4 = 9;
+const inline int8_t IN4 = 18;
 
 //Encoder
 const inline char ENC_A = 'A';

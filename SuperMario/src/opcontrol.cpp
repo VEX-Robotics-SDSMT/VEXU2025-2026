@@ -43,7 +43,8 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
  */
 
 
-void opcontrol() {
+void opcontrol() 
+{
 	 while(true)
 	 {
 		leftArcadeDrive(master,leftMotors,rightMotors, pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y, 
