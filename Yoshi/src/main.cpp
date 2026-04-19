@@ -93,7 +93,7 @@ void autonomous()
 	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
 
-	drive.turnDegreesAbsolute(270);
+	drive.turnDegreesAbsolute(90);
 
 	intakeSlow();
 
