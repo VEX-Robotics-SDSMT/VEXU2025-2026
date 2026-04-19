@@ -3,9 +3,6 @@
 void leftAutonRoute(void)
 {
 
-
-    drive.driveDistance(24.0,5000);
-    drive.driveDistance(-24.0,5000);
 }
 
 void rightAutonRoute(void)
@@ -23,11 +20,16 @@ void rightRouteSkills(void)
 
 }
 
+
 void autonomous() 
 {
-    drive.setDrivePID(0.001, 0.03, 0.0, 20.0);
+    drive.setDrivePID(0.001, 0.03, 0.001, 20.0);
+    drive.setTurnPID(1.5, 0.000000001, 0, 99999999.0);
     drive.capVoltage(127);
+    drive.turnTo(90,0.75,200);
+    drive.turnTo(-90,0.75,200);
     
+
     switch (selectedRoute)
     {
     case RouteType::left:
@@ -45,5 +47,4 @@ void autonomous()
     default:
         break;
     }
-    
 }
