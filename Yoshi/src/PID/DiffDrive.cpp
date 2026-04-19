@@ -21,7 +21,7 @@ DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, pros::IMU imu)
 DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, SensorInterface *driveSensors, pros::Imu imu) :
     leftMotors(left), rightMotors(right), inertial(imu),
     driveInterface(this), turnInterface(this),
-    drivePID(&driveInterface, LoggerSettings::none), turnPID(&turnInterface, LoggerSettings::none),
+    drivePID(&driveInterface, LoggerSettings::none), turnPID(&turnInterface, LoggerSettings::verbose),
     logger(LoggerSettings::none)
 {
     MAX_SPEED = rightMotors.getMaxVelocity();
@@ -238,7 +238,7 @@ double DiffDrive::getTurnPosition()
 
     if (current - target > 180)
     {
-        return current - 360;
+        return 360 - current;
     }
     else if (target - current > 180)
     {
