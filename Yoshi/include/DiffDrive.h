@@ -46,6 +46,7 @@ class DiffDrive
 
             double getPositionPID() override;
             void setVelocityPID(double value) override;
+            double getErrorPID(double target) override;
     };
 
     class TurnInterface : public PIDInterface
@@ -57,6 +58,7 @@ class DiffDrive
 
             double getPositionPID() override;
             void setVelocityPID(double value) override;
+            double getErrorPID(double target) override;
     };
     
     class DriveSensorInterface : public SensorInterface

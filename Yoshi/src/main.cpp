@@ -87,7 +87,7 @@ void autonomous()
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
 	drive.setDrivePIDVals(0.3, 0, 0); //0.3, 0, 0 for Luigi
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(2.6, 0.02, 0.08); //1.8, 0.1 for Luigi
+	drive.setTurnPIDVals(0.2, 0, 0); //1.8, 0.1 for Luigi
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.6);

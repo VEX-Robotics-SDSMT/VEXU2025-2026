@@ -16,6 +16,7 @@ namespace Mines
         public:
             virtual double getPositionPID() = 0;
             virtual void setVelocityPID(double value) = 0;
+            virtual double getErrorPID(double target) = 0;
     };
 
 
@@ -46,6 +47,7 @@ namespace Mines
             void resetTimers();
             void update(double deltaT);
             double getPosition();
+            double getError(double target);
             void setOutput(double value);
 
         public:
