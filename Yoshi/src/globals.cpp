@@ -24,6 +24,7 @@ pros::Motor IntakeTop(I_TOP, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeScore(I_SCORE, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeFrontL(I_FRONTL, pros::E_MOTOR_GEARSET_18, true);
 pros::Motor IntakeFrontR(I_FRONTR, pros::E_MOTOR_GEARSET_18, false);
+pros::Motor IntakeTiny(I_TINY, pros::E_MOTOR_GEARSET_18, true);
 
 
 pros::ADIDigitalOut intakeLiftR(LIFT1);

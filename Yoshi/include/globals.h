@@ -15,7 +15,7 @@
 #define L_REARM 2
 #define L_REAR 1
 #define R_FRONT 10
-#define R_FRONTM 13
+#define R_FRONTM 5
 #define R_REARM 12
 #define R_REAR 11
 
@@ -24,8 +24,9 @@
 #define I_MID 19
 #define I_TOP 18
 #define I_SCORE 16
-#define I_FRONTL 9
-#define I_FRONTR 5
+#define I_FRONTL 8
+#define I_FRONTR 7
+#define I_TINY 9
 
 #define LIFT1 8
 #define LIFT2 7
@@ -58,6 +59,7 @@ extern pros::Motor IntakeTop;
 extern pros::Motor IntakeScore;
 extern pros::Motor IntakeFrontR;
 extern pros::Motor IntakeLeftR;
+extern pros::Motor IntakeTiny;
 
 extern std::vector<pros::Motor> leftDriveVector;
 extern std::vector<pros::Motor> rightDriveVector;

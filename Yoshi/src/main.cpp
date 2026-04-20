@@ -85,7 +85,7 @@ void autonomous()
 {
 	EncoderWheelSensorInterface encoderInterface(driveEncoder);
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
-	drive.setDrivePIDVals(0.1, 0, 0); //0.3, 0, 0 for Luigi
+	drive.setDrivePIDVals(0.3, 0, 0); //0.3, 0, 0 for Luigi
 	drive.setDrivePIDTol(50);
 	drive.setTurnPIDVals(0.2, 0, 0); //1.8, 0.1 for Luigi
 	drive.setTurnPIDTol(2);
@@ -94,8 +94,13 @@ void autonomous()
 	drive.setMaxDriveAccel(0.12);
 
 	drive.turnDegreesAbsolute(90);
-	//drive.turnDegreesAbsolute(0);
 
+	intakeSlow();
+
+	// drive.driveTiles(500);
+	// drive.driveTiles(-500);
+
+	// pros::delay(1000);
 	// drive.driveTiles(500);
 	// drive.driveTiles(-500);
 

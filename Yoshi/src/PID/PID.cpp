@@ -17,7 +17,7 @@ namespace Mines
     {
         double currentPosition = getPosition();
         logger.Log("current position: " + std::to_string(currentPosition), 0, LoggerSettings::verbose);
-        double error = target - currentPosition;
+        double error = getError(target);
         logger.Log("current error value: " + std::to_string(error), 1, LoggerSettings::verbose);
 
         double positional = KP * error;
@@ -69,6 +69,10 @@ namespace Mines
         return interface->getPositionPID();
     }
 
+    double PID::getError(double target) {
+        return interface->getErrorPID(target);
+    }
+
     void PID::setOutput(double value)
     {
         velocity = value;
@@ -96,7 +100,6 @@ namespace Mines
 
     void PID::SetTarget(double target)
     {
-        resetTimers();
         this->target = target;
     }
 

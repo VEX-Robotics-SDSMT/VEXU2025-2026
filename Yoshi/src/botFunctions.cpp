@@ -35,11 +35,12 @@ void intakeDrop(pros::ADIDigitalOut left, pros::ADIDigitalOut right, bool value)
 
 void intakeSlow() {
     IntakeBot.move(127);
-    IntakeMid.move(80);
+    IntakeMid.move(100);
     IntakeTop.move(80);
     IntakeRear.move(80);
     intakeWheels.move(127);
     IntakeScore.move(-50);
+    IntakeTiny.move(127);
 }
 
 void scoreTop() {
@@ -49,6 +50,7 @@ void scoreTop() {
     IntakeTop.move(127);
     intakeWheels.move(127);
     IntakeScore.move(127);
+    IntakeTiny.move(127);
 }
 
 void scoreMid() {
@@ -64,6 +66,7 @@ void outTake() {
     IntakeTop.move(-127);
     intakeWheels.move(-127);
     IntakeScore.move(-127);
+    IntakeTiny.move(-127);
 }
 
 void intakeBrake() {
@@ -73,6 +76,7 @@ void intakeBrake() {
     IntakeTop.brake();
     intakeWheels.brake();
     IntakeScore.brake();
+    IntakeTiny.brake();
 }
 
 void driveLoop(Mines::MinesMotorGroup leftMotorGroup, Mines::MinesMotorGroup rightMotorGroup, double leftVelocity, double rightVelocity)
