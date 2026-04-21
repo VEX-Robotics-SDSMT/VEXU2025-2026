@@ -107,6 +107,7 @@ void  DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
             pros::c::delay(20);
         }
     }
+    drivePID.SetTarget(getDrivePosition());
 }
 
 //will cause the robot to turn to the absolute angle based on initialization angle
@@ -116,6 +117,8 @@ void  DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
 */
 void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
 {
+    //pause Drive PID
+    drivePID.SetTaskPaused(true);
     //account for negative angles
     while(target < 0) {
         target += 360;
@@ -127,6 +130,7 @@ void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
     }
 
     turnPID.SetTarget(getTurnPosition());
+    drivePID.SetTarget(getDrivePosition());
 }
 
 //sets the brake mode of the motors to a different mode
@@ -240,22 +244,7 @@ void  DiffDrive::setDriveVelocity(double value)
 //gets the current turn angle
 double  DiffDrive::getTurnPosition()
 {
-    double current = inertial.get_heading();
-
-    double target = turnPID.GetTarget();
-
-    if (current - target > 180)
-    {
-        return current - 360;
-    }
-    else if (target - current > 180)
-    {
-        return current + 360;
-    }
-    else
-    {
-        return current;
-    }
+    return inertial.get_heading();
 }
 
 //sets the turning velocity
@@ -370,7 +359,16 @@ void  DiffDrive::TurnInterface::setVelocityPID(double value)
 }
 
 double DiffDrive::TurnInterface::getErrorPID(double target) {
-    return double((int(target - parent->getTurnPosition() + 540) % 360) - 180);
+    double error = parent->getTurnPosition() - target;
+    error = std::fmod(error + 180.0, 360.0);
+    if (error < 0)
+        error += 360.0;
+    error -= 180.0;
+
+    if (error <= -180.0)
+        error = 180.0;
+
+    return error;
 }
 
 

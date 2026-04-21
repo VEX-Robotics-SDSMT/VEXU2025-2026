@@ -15,23 +15,26 @@ namespace Mines
 
     void PID::update(double deltaT)
     {
+        logger.Log("current target: " + std::to_string(GetTarget()), 0, LoggerSettings::verbose);
         double currentPosition = getPosition();
-        logger.Log("current position: " + std::to_string(currentPosition), 0, LoggerSettings::verbose);
+        logger.Log("current position: " + std::to_string(currentPosition), 1, LoggerSettings::verbose);
         double error = getError(target);
-        logger.Log("current error value: " + std::to_string(error), 1, LoggerSettings::verbose);
+        logger.Log("current error value: " + std::to_string(error), 2, LoggerSettings::verbose);
 
         double positional = KP * error;
-        double integral = KI * ( lastIntergral + (error * deltaT));
-        double derivative = KD * ((error - lastError) / deltaT);
-        if (deltaT <= 0 || std::isnan(deltaT))
-            derivative = 0;
-        logger.Log("positional: " + std::to_string(positional), 2, LoggerSettings::verbose);
-        logger.Log("integral: " + std::to_string(integral), 3, LoggerSettings::verbose);
-        logger.Log("derivative: " + std::to_string(derivative), 4, LoggerSettings::verbose);
+        lastIntegral += error * deltaT;
+        double integral = KI * lastIntegral;
+        double derivative = 0;
+        if (deltaT > 0 && !std::isnan(deltaT)) {
+            derivative = KD * ((error - lastError) / deltaT);
+}
+        logger.Log("positional: " + std::to_string(positional), 3, LoggerSettings::verbose);
+        logger.Log("integral: " + std::to_string(integral), 4, LoggerSettings::verbose);
+        logger.Log("derivative: " + std::to_string(derivative), 5, LoggerSettings::verbose);
 
-        double controlVariable = positional + integral + derivative;
+        double controlVariable = (positional + integral + derivative);
         controlVariable = std::clamp(controlVariable, -1000.0, 1000.0);
-        logger.Log("controlVariable: " + std::to_string(controlVariable), 6, LoggerSettings::verbose);
+        logger.Log("controlVariable: " + std::to_string(controlVariable), 7, LoggerSettings::verbose);
 
 
         //setting loop variables
@@ -48,12 +51,12 @@ namespace Mines
         if (isnan(integral))
         {
             logger.Log("ERROR: integral is Nan", 9, LoggerSettings::error);
-            lastIntergral = 0; 
+            lastIntegral = 0; 
         }
 
         //updating times
         timeSinceTargetSet += deltaT;
-        if(fabs(target - currentPosition) < tolerance)
+        if(fabs(error) < tolerance)
         {
             timeSinceTargetReached += deltaT;
         }
@@ -61,7 +64,6 @@ namespace Mines
         //setting output variables
         //std::cout << controlVariable << endl;
         setOutput(controlVariable);
-        //lastIntergral += error * deltaT;
     }
 
     double PID::getPosition()
@@ -101,6 +103,8 @@ namespace Mines
     void PID::SetTarget(double target)
     {
         this->target = target;
+        this->timeSinceTargetReached = 0;
+        this->timeSinceTargetSet = 0;
     }
 
     double PID::GetVelocity()

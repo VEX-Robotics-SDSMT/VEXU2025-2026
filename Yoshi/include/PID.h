@@ -36,7 +36,7 @@ namespace Mines
 
         //Transients - change programatically every loop
         double lastError = 0;
-        double lastIntergral = 0;
+        double lastIntegral = 0;
         
         //Output variables - the values kept track out for output only
         double timeSinceTargetReached;

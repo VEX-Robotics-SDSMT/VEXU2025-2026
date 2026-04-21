@@ -87,13 +87,22 @@ void autonomous()
 	DiffDrive drive(leftDriveMotors, rightDriveMotors, &encoderInterface, intertialSensor);
 	drive.setDrivePIDVals(0.3, 0, 0); //0.3, 0, 0 for Luigi
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(0.2, 0, 0); //1.8, 0.1 for Luigi
+	drive.setTurnPIDVals(5, 0, 20); //5, 0, 20 tuned 4/20/2026
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
 
+	drive.turnDegreesAbsolute(180);
+	drive.turnDegreesAbsolute(0);
+	drive.turnDegreesAbsolute(45);
 	drive.turnDegreesAbsolute(90);
+	drive.turnDegreesAbsolute(135);
+	drive.turnDegreesAbsolute(180);
+	drive.turnDegreesAbsolute(225);
+	drive.turnDegreesAbsolute(270);
+	drive.turnDegreesAbsolute(315);
+	drive.turnDegreesAbsolute(0);
 
 	intakeSlow();
 
@@ -143,8 +152,8 @@ void opcontrol()
 		double rightAxisX = MasterController.get_analog(axisRightX);
 		double aimVelocityLeft = (rightAxisX) * 0.06;
 		double aimVelocityRight = -rightAxisX * 0.06;
-		double leftVelocity = ((leftAxisY + leftAxisX + aimVelocityLeft));
-		double rightVelocity = ((leftAxisY - leftAxisX + aimVelocityRight));
+		double leftVelocity = 4* ((leftAxisY + leftAxisX + aimVelocityLeft));
+		double rightVelocity = 4* ((leftAxisY - leftAxisX + aimVelocityRight));
 
 		// Tank
 		// double leftAxisY = MasterController.get_analog(axisLeftY);

@@ -16,7 +16,7 @@
 #define L_REAR 1
 #define R_FRONT 10
 #define R_FRONTM 5
-#define R_REARM 12
+#define R_REARM 4
 #define R_REAR 11
 
 #define I_BOT 21
