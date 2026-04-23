@@ -18,10 +18,8 @@ void shoot3Disk();
 void intakeDrop(pros::ADIDigitalOut left, pros::ADIDigitalOut right, bool value);
 void intakeSlow(pros::Motor front, pros::Motor mid, pros::Motor top, pros::Motor rear);
 
-void intakeScoreTop(bool slower = false);
-void intakeBasket();
+void intakeScoreTop();
 void intakeOut();
-void intakeScoreMid();
 void intakeBrake();
 
 Color getColor(pros::c::optical_rgb_s_t color);

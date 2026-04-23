@@ -4,34 +4,35 @@
 pros::Controller MasterController (pros::E_CONTROLLER_MASTER);
 
 pros::Imu intertialSensor(INERTIAL_SENSOR);
-pros::Optical colorSensor(COLOR_SENSOR);
-pros::ADIEncoder driveEncoder(ENCODER_TOP, ENCODER_BOTTOM, true);
+pros::Rotation rotationSensor(ENCODER);
 pros::GPS gps(VEX_GPS);
 
 pros::Motor leftFront(L_FRONT, pros::E_MOTOR_GEARSET_06, true);
 pros::Motor leftMid(L_MID, pros::E_MOTOR_GEARSET_06, true);
-pros::Motor leftRearTop(L_TREAR, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor leftRearTop(L_TREAR, pros::E_MOTOR_GEARSET_06, true);
 pros::Motor leftRearBot(L_BREAR, pros::E_MOTOR_GEARSET_06, true);
 pros::Motor rightFront(R_FRONT, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor rightMid(R_MID, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor rightRearTop(R_TREAR, pros::E_MOTOR_GEARSET_06, true);
+pros::Motor rightRearTop(R_TREAR, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor rightRearBot(R_BREAR, pros::E_MOTOR_GEARSET_06, false);
 
-pros::Motor IntakeBack(I_BACK, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor IntakeBot(I_BOT, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor IntakeMid(I_MID, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeFront(I_FRONT, pros::E_MOTOR_GEARSET_18, false);
-pros::Motor IntakeTop1(I_TOP1, pros::E_MOTOR_GEARSET_06, false);
-pros::Motor IntakeTop2(I_TOP2, pros::E_MOTOR_GEARSET_06, false);
+pros::Motor IntakeTop(I_TOP, pros::E_MOTOR_GEARSET_06, true);
+
+pros::Motor ArmMotor(ARM_MOTOR, pros::E_MOTOR_GEARSET_18, false);
 
 
 pros::ADIDigitalOut Arm(ARM);
-pros::ADIDigitalOut Arm2(ARM1);
+pros::ADIDigitalOut lift(LIFT);
+pros::ADIDigitalOut lift1(LIFT1);
+pros::ADIDigitalOut flap(FLAP);
 
 std::vector<pros::Motor> leftDriveVector = {leftFront, leftMid, leftRearTop, leftRearBot};
 std::vector<pros::Motor> rightDriveVector = {rightFront, rightMid, rightRearTop, rightRearBot};
+std::vector<pros::Motor> intakeMotorVector = {IntakeFront, IntakeTop};
 Mines::MinesMotorGroup leftDriveMotors(leftDriveVector);
 Mines::MinesMotorGroup rightDriveMotors(rightDriveVector);
+Mines::MinesMotorGroup intakeMotors(intakeMotorVector);
 
 double axisPercentBlue = 600.0 / 127;
 double axisPercentGreen = 200.0 / 127;
