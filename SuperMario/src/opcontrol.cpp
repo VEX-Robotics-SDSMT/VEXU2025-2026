@@ -20,6 +20,14 @@ void leftArcadeDrive(pros::v5::Controller& controller, const pros::v5::AbstractM
 	right.move(drivePower -  turnPower);
 }
 
+void leftArcadeDriveSwapped(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right, pros::controller_analog_e_t axis1, pros::controller_analog_e_t axis2)
+{
+	int32_t drivePower = mapExponential(controller.get_analog(axis1));
+	int32_t turnPower = std::clamp(mapExponential(controller.get_analog(axis2)), (int32_t)-70, (int32_t)70);
+	left.move(-(drivePower +  turnPower));
+	right.move(-(drivePower -  turnPower));
+}
+
 void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::AbstractMotor& left, const pros::v5::AbstractMotor& right)
 {
 	left.move(controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_Y) + controller.get_analog(pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_X ));
@@ -44,11 +52,20 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
 
 
 void opcontrol() 
-{
+{	
+	int swapped = 0;
 	 while(true)
 	 {
-		leftArcadeDrive(master,leftMotors,rightMotors, pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y, 
+		if(swapped)
+		{
+		leftArcadeDriveSwapped(master, leftMotors, rightMotors, pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y, 
 			pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_X);
+		}
+		else
+		{
+			leftArcadeDrive(master, leftMotors, rightMotors, pros::controller_analog_e_t::E_CONTROLLER_ANALOG_LEFT_Y, 
+			pros::controller_analog_e_t::E_CONTROLLER_ANALOG_RIGHT_X);
+		}
 		
 		if(master.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_R1))
 		{
@@ -63,6 +80,19 @@ void opcontrol()
 			intakeMotors.move(0);
 		}
 
+		if(master.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_L1))
+		{
+			unLoader.move(60);
+		}
+		else if(master.get_digital(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_L2))
+		{
+			unLoader.move(-60);
+		}
+		else
+		{
+			unLoader.move(0);
+		}
+
 		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_UP))
 		{
 			lift.toggle();
@@ -72,10 +102,19 @@ void opcontrol()
 		{
 			hood.toggle();
 		}
+
 		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_A))
 		{
 			arm.toggle();
 			lift.extend();
+		}
+
+		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_B))
+		{
+			if(swapped)
+			swapped = 0;
+			else
+			swapped = 1;
 		}
 		pros::delay(20);
 	 }
