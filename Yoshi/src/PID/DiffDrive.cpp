@@ -99,6 +99,10 @@ void  DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
     while(target < 0) {
         target += 360;
     }
+    //account for too large of angles
+    while(target > 360) {
+        target -= 360;
+    }
     turnPID.SetTarget(target);
     if(waitForCompletion)
     {
@@ -122,6 +126,10 @@ void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
     //account for negative angles
     while(target < 0) {
         target += 360;
+    }
+    //account for too large of angles
+    while(target > 360) {
+        target -= 360;
     }
     turnPID.SetTarget(target);
     while(turnPID.GetTimeSinceTargetReached() < GOAL_TIME && turnPID.GetTimeSinceTargetSet() < timeOut)

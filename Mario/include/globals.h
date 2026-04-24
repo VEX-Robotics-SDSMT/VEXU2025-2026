@@ -4,32 +4,28 @@
 #include "api.h"
 #include "MinesMotorGroup.h"
 
-#define INERTIAL_SENSOR 16
-#define COLOR_SENSOR 14
+#define INERTIAL_SENSOR 20
 #define VEX_GPS 21 //unused so far
-#define ENCODER_TOP 5
-#define ENCODER_BOTTOM 6
+#define ENCODER 14
 
-#define L_FRONT 3//
-#define L_MID 2//
-#define L_TREAR 4//
-#define L_BREAR 1//
-#define R_FRONT 7//
-#define R_MID 8//
-#define R_TREAR 6//
-#define R_BREAR 5//
+#define L_FRONT 4
+#define L_MID 1
+#define L_TREAR 5
+#define L_BREAR 3
+#define R_FRONT 9
+#define R_MID 10
+#define R_TREAR 6
+#define R_BREAR 18
 
-#define I_FRONT 11//
-#define I_BOT 12//
-#define I_MID 13//
-#define I_TOP1 20//
-#define I_TOP2 19//
-#define I_BACK 18//
+#define I_FRONT 19
+#define I_TOP 10
 
-#define ARM 8
-#define ARM1 3
+#define ARM_MOTOR 2
 
-#define I_REAR 9
+#define LIFT 1
+#define LIFT1 2
+#define FLAP 3
+#define ARM 4
 
 
 #define INTAKE_MOTOR_GEARSET redGearbox
@@ -39,8 +35,7 @@
 extern pros::Controller MasterController;
 
 extern pros::Imu intertialSensor;
-extern pros::Optical colorSensor;
-extern pros::ADIEncoder driveEncoder;
+extern pros::Rotation rotationSensor;
 extern pros::GPS gps;
 
 extern pros::Motor leftFront;
@@ -51,20 +46,20 @@ extern pros::Motor rightFront;
 extern pros::Motor rightRearTop;
 extern pros::Motor rightMid;
 extern pros::Motor rightRearBot;
-extern pros::Motor IntakeBack;
-extern pros::Motor IntakeMid;
 extern pros::Motor IntakeFront;
-extern pros::Motor IntakeTop1;
-extern pros::Motor IntakeTop2;
-extern pros::Motor IntakeBot;
+extern pros::Motor IntakeTop;
+extern pros::Motor ArmMotor;
 
 extern std::vector<pros::Motor> leftDriveVector;
 extern std::vector<pros::Motor> rightDriveVector;
 extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
+extern Mines::MinesMotorGroup intakeMotors;
 
 extern pros::ADIDigitalOut Arm;
-extern pros::ADIDigitalOut Arm2;
+extern pros::ADIDigitalOut flap;
+extern pros::ADIDigitalOut lift;
+extern pros::ADIDigitalOut lift1;
 
 enum Color { red, blue, purple };
 extern pros::Motor string;

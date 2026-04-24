@@ -1,10 +1,10 @@
 #include "DiffDrive.h"
 
-using namespace Mines;
+namespace Mines {
 using namespace std;
 
 
-DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, pros::IMU imu) : 
+ DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, pros::IMU imu) : 
     leftMotors(left), rightMotors(right), inertial(imu),
     driveInterface(this), turnInterface(this),
     drivePID(&driveInterface, LoggerSettings::none), turnPID(&turnInterface, LoggerSettings::none),
@@ -18,10 +18,10 @@ DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, pros::IMU imu)
     StartPIDs();
 }
 
-DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, SensorInterface *driveSensors, pros::Imu imu) :
+ DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, SensorInterface *driveSensors, pros::Imu imu) :
     leftMotors(left), rightMotors(right), inertial(imu),
     driveInterface(this), turnInterface(this),
-    drivePID(&driveInterface, LoggerSettings::none), turnPID(&turnInterface, LoggerSettings::none),
+    drivePID(&driveInterface, LoggerSettings::none), turnPID(&turnInterface, LoggerSettings::verbose),
     logger(LoggerSettings::none)
 {
     MAX_SPEED = rightMotors.getMaxVelocity();
@@ -33,20 +33,20 @@ DiffDrive::DiffDrive(MinesMotorGroup left, MinesMotorGroup right, SensorInterfac
     StartPIDs();
 }
 
-DiffDrive::~DiffDrive()
+ DiffDrive::~DiffDrive()
 {
     killPIDs();
 }
 
 // *****************************************
 // returns average current velocity
-double DiffDrive::getDriveVelocity()
+double  DiffDrive::getDriveVelocity()
 {
     return (leftMotors.getActualVelocity() + rightMotors.getActualVelocity()) / 2;
 }
 
 //returns current spinning velocity
-double DiffDrive::getTurnVelocity()
+double  DiffDrive::getTurnVelocity()
 {
     return inertial.get_gyro_rate().z;
 }
@@ -56,7 +56,7 @@ double DiffDrive::getTurnVelocity()
     * DiffDrive drive.driveTiles(1000, true) //will wait for completion
     * DiffDrive drive.driveTiles(1000, false) //will not wait, just start and stop
 */
-void DiffDrive::driveTiles(double target, bool waitForCompletion)
+void  DiffDrive::driveTiles(double target, bool waitForCompletion)
 {
     driveSensorInterface->Reset();
 
@@ -75,7 +75,7 @@ void DiffDrive::driveTiles(double target, bool waitForCompletion)
     * DiffDrive drive.driveTiles(1000, 1000) //will move until reach target or 1s has passed
     * DiffDrive drive.driveTiles(1000, 2000) //will move until reach target or 2s has passed
 */
-void DiffDrive::driveTiles(double target, int timeOut)
+void  DiffDrive::driveTiles(double target, int timeOut)
 {
     driveSensorInterface->Reset();
     drivePID.SetTarget(target);
@@ -93,8 +93,16 @@ void DiffDrive::driveTiles(double target, int timeOut)
     * DiffDrive drive.turnDegreesAbsolute(180, true) //will turn to 180 degrees relative to initial position
     * DiffDrive drive.turnDegreesAbsolute(90, true) //will turn to 90 degrees relative to initial position
 */
-void DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
+void  DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
 {
+    //account for negative angles
+    while(target < 0) {
+        target += 360;
+    }
+    //account for too large of angles
+    while(target > 360) {
+        target -= 360;
+    }
     turnPID.SetTarget(target);
     if(waitForCompletion)
     {
@@ -103,6 +111,7 @@ void DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
             pros::c::delay(20);
         }
     }
+    drivePID.SetTarget(getDrivePosition());
 }
 
 //will cause the robot to turn to the absolute angle based on initialization angle
@@ -110,8 +119,18 @@ void DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
     * DiffDrive drive.turnDegreesAbsolute(180, 1000) //will turn to 180 degrees relative to initial position
     * DiffDrive drive.turnDegreesAbsolute(90, 1000) //will turn to 90 degrees relative to initial position
 */
-void DiffDrive::turnDegreesAbsolute(double target, int timeOut)
+void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
 {
+    //pause Drive PID
+    drivePID.SetTaskPaused(true);
+    //account for negative angles
+    while(target < 0) {
+        target += 360;
+    }
+    //account for too large of angles
+    while(target > 360) {
+        target -= 360;
+    }
     turnPID.SetTarget(target);
     while(turnPID.GetTimeSinceTargetReached() < GOAL_TIME && turnPID.GetTimeSinceTargetSet() < timeOut)
     {
@@ -119,6 +138,7 @@ void DiffDrive::turnDegreesAbsolute(double target, int timeOut)
     }
 
     turnPID.SetTarget(getTurnPosition());
+    drivePID.SetTarget(getDrivePosition());
 }
 
 //sets the brake mode of the motors to a different mode
@@ -127,7 +147,7 @@ void DiffDrive::turnDegreesAbsolute(double target, int timeOut)
     * pros::E_MOTOR_BRAKE_BRAKE //Motor short brakes ^^
     * pros::E_MOTOR_BRAKE_HOLD  //Motor will constant brake **WARNING** using this can over-exert motors
 */
-void DiffDrive::setBrakeMode(pros::motor_brake_mode_e mode)
+void  DiffDrive::setBrakeMode(pros::motor_brake_mode_e mode)
 {
     leftMotors.setBrakeMode(mode);
     rightMotors.setBrakeMode(mode);
@@ -138,7 +158,7 @@ void DiffDrive::setBrakeMode(pros::motor_brake_mode_e mode)
     * drive.setDrivePIDVals(2, 1.2, 0); //will set P=2, I=1.2, D=0
 */
 
-void DiffDrive::setDrivePIDVals(double kp, double ki, double kd)
+void  DiffDrive::setDrivePIDVals(double kp, double ki, double kd)
 {
     drivePID.SetPIDConst(kp, ki, kd);
 }
@@ -147,7 +167,7 @@ void DiffDrive::setDrivePIDVals(double kp, double ki, double kd)
 /*EX call:
     * drive.setTurnPIDVals(1, 0.8, 0); //will set P=1, I=0.8, D=0
 */
-void DiffDrive::setTurnPIDVals(double kp, double ki, double kd)
+void  DiffDrive::setTurnPIDVals(double kp, double ki, double kd)
 {
     turnPID.SetPIDConst(kp, ki, kd); 
 }
@@ -156,7 +176,7 @@ void DiffDrive::setTurnPIDVals(double kp, double ki, double kd)
 /*EX call:
     * drive.setDrivePIDTol(50); //will set the drive tolerance to 50 ticks
 */
-void DiffDrive::setDrivePIDTol(double tolerance)
+void  DiffDrive::setDrivePIDTol(double tolerance)
 {
     drivePID.SetTolerance(tolerance);
 }
@@ -165,7 +185,7 @@ void DiffDrive::setDrivePIDTol(double tolerance)
 /*EX call:
     * drive.setTurnPIDTol(2); //will set the turn tolerance to 2 degrees
 */
-void DiffDrive::setTurnPIDTol(double tolerance)
+void  DiffDrive::setTurnPIDTol(double tolerance)
 {
     turnPID.SetTolerance(tolerance);
 }
@@ -174,7 +194,7 @@ void DiffDrive::setTurnPIDTol(double tolerance)
 /*EX call:
     * drive.setMaxDriveSpeed(0.8); //will set the max speed to 80% of max
 */
-void DiffDrive::setMaxDriveSpeed(double percent)
+void  DiffDrive::setMaxDriveSpeed(double percent)
 {
     MAX_DRIVE_PERCENT = percent;
 }
@@ -183,7 +203,7 @@ void DiffDrive::setMaxDriveSpeed(double percent)
 /*EX call:
     * drive.setMaxTurnSpeed(0.8); //will set the max speed to 80% of max
 */
-void DiffDrive::setMaxTurnSpeed(double percent)
+void  DiffDrive::setMaxTurnSpeed(double percent)
 {
     MAX_TURN_PERCENT = percent;
 }
@@ -192,7 +212,7 @@ void DiffDrive::setMaxTurnSpeed(double percent)
 /*EX call:
     * drive.setMaxDriveAccel(0.2); //will set the acceleration to 0.2 ticks/sec
 */
-void DiffDrive::setMaxDriveAccel(double value)
+void  DiffDrive::setMaxDriveAccel(double value)
 {
     MAX_DRIVE_ACCEL = value;
 }
@@ -201,13 +221,13 @@ void DiffDrive::setMaxDriveAccel(double value)
 /*EX call:
     * drive.setMaxTurnAccel(0.2); //will set the acceleration to 0.2 ticks/sec
 */
-void DiffDrive::setMaxTurnAccel(double value)
+void  DiffDrive::setMaxTurnAccel(double value)
 {
     MAX_TURN_ACCEL = value;
 }
 
 //gets the current position relative to start point
-double DiffDrive::getDrivePosition()
+double  DiffDrive::getDrivePosition()
 {
     double sensorVal = driveSensorInterface->Get();
     std::cout << sensorVal << "\n";
@@ -215,7 +235,7 @@ double DiffDrive::getDrivePosition()
 }
 
 //sets the new drive velocity based on acceleration and speed
-void DiffDrive::setDriveVelocity(double value)
+void  DiffDrive::setDriveVelocity(double value)
 {
     double adjustedDriveMaxAccel = MAX_DRIVE_ACCEL * MAX_SPEED;
     double dyanamicMax = fabs(getDriveVelocity()) + adjustedDriveMaxAccel;
@@ -230,35 +250,20 @@ void DiffDrive::setDriveVelocity(double value)
 }
 
 //gets the current turn angle
-double DiffDrive::getTurnPosition()
+double  DiffDrive::getTurnPosition()
 {
-    double current = inertial.get_heading();
-
-    double target = turnPID.GetTarget();
-
-    if (current - target > 180)
-    {
-        return current - 360;
-    }
-    else if (target - current > 180)
-    {
-        return current + 360;
-    }
-    else
-    {
-        return current;
-    }
+    return inertial.get_heading();
 }
 
 //sets the turning velocity
-void DiffDrive::setTurnVelocity(double value)
+void  DiffDrive::setTurnVelocity(double value)
 {
     turnVelocity = value;
     setMotorVelocities();
 }
 
 //sets the motor velocities based on current state
-void DiffDrive::setMotorVelocities()
+void  DiffDrive::setMotorVelocities()
 {
     double adjustedDriveMax = MAX_DRIVE_PERCENT * MAX_SPEED;
     double adjustedTurnMax = MAX_TURN_PERCENT * MAX_SPEED;
@@ -282,7 +287,7 @@ void DiffDrive::setMotorVelocities()
 }
 
 //will activate the PIDs from a paused state
-void DiffDrive::setActive(bool active)
+void  DiffDrive::setActive(bool active)
 {
     ACTIVE = active;
 
@@ -294,7 +299,7 @@ void DiffDrive::setActive(bool active)
 }
 
 //will turn off the PIDs
-void DiffDrive::killPIDs()
+void  DiffDrive::killPIDs()
 {
     drivePID.KillTask();
     turnPID.KillTask();
@@ -304,14 +309,14 @@ void DiffDrive::killPIDs()
 }
 
 //will start the PIDs
-void DiffDrive::StartPIDs()
+void  DiffDrive::StartPIDs()
 {
     drivePID.StartTask("drive PID");
     turnPID.StartTask("turn PID");
 }
 
 //will pause the PIDs
-void DiffDrive::SetPausedPID(bool paused)
+void  DiffDrive::SetPausedPID(bool paused)
 {
     PIDPaused = paused;
     drivePID.SetTaskPaused(paused);
@@ -319,7 +324,7 @@ void DiffDrive::SetPausedPID(bool paused)
 }
 
 //will return if the PID is paused or not
-bool DiffDrive::GetPausedPID()
+bool  DiffDrive::GetPausedPID()
 {
     return PIDPaused; 
 }
@@ -327,66 +332,84 @@ bool DiffDrive::GetPausedPID()
 
 //--------------------nested classes-----------------------
 
-
-DiffDrive::DriveInterface::DriveInterface(DiffDrive* pParent)
+ DiffDrive::DriveInterface::DriveInterface(DiffDrive* pParent)
 {
     parent = pParent;
 }
 
-double DiffDrive::DriveInterface::getPositionPID()
+double  DiffDrive::DriveInterface::getPositionPID()
 {
     return parent->getDrivePosition();
 }
 
-void DiffDrive::DriveInterface::setVelocityPID(double value)
+void  DiffDrive::DriveInterface::setVelocityPID(double value)
 {
     parent->setDriveVelocity(value);
 }
 
-DiffDrive::TurnInterface::TurnInterface(DiffDrive* pParent)
+double DiffDrive::DriveInterface::getErrorPID(double target) {
+    return target - parent->getDrivePosition();
+}
+
+ DiffDrive::TurnInterface::TurnInterface(DiffDrive* pParent)
 {
     parent = pParent;
 }
 
-double DiffDrive::TurnInterface::getPositionPID()
+double  DiffDrive::TurnInterface::getPositionPID()
 {
     return parent->getTurnPosition();
 }
 
-void DiffDrive::TurnInterface::setVelocityPID(double value)
+void  DiffDrive::TurnInterface::setVelocityPID(double value)
 {
     parent->setTurnVelocity(value);
 }
 
+double DiffDrive::TurnInterface::getErrorPID(double target) {
+    double error = parent->getTurnPosition() - target;
+    error = std::fmod(error + 180.0, 360.0);
+    if (error < 0)
+        error += 360.0;
+    error -= 180.0;
+
+    if (error <= -180.0)
+        error = 180.0;
+
+    return error;
+}
+
 
 //Encoder Wheel Sensor
-EncoderWheelSensorInterface::EncoderWheelSensorInterface(pros::ADIEncoder encoder) : encoder(encoder) {}
+ EncoderWheelSensorInterface::EncoderWheelSensorInterface(pros::Rotation rotation) : rotation(rotation) {}
 
 double EncoderWheelSensorInterface::Get()
 {
-    double sensorVal = encoder.get_value();
-    std::cout << "encoder val: " << sensorVal <<"errno:" <<errno <<  "\n";
+    double sensorVal = rotation.get_position();
+    std::cout << "rotation val: " << sensorVal <<"errno:" <<errno <<  "\n";
 
     return sensorVal;
 }
 
-void EncoderWheelSensorInterface::Reset()
+void  EncoderWheelSensorInterface::Reset()
 {
-    encoder.reset();
+    rotation.reset();
 }
 
 //Motor Wheel Sensor
-DiffDrive::DriveSensorInterface::DriveSensorInterface(MinesMotorGroup left, MinesMotorGroup right) : left(left), right(right) {}
+ DiffDrive::DriveSensorInterface::DriveSensorInterface(MinesMotorGroup left, MinesMotorGroup right) : left(left), right(right) {}
 
-double DiffDrive::DriveSensorInterface::Get()
+double  DiffDrive::DriveSensorInterface::Get()
 {
     return (left.getPosition() + right.getPosition()) / 2;
 }
 
-void DiffDrive::DriveSensorInterface::Reset()
+void  DiffDrive::DriveSensorInterface::Reset()
 {
     left.tarePosition();
     right.tarePosition();
+}
+
 }
 
 

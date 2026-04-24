@@ -89,29 +89,57 @@ void autonomous()
 	drive.setDrivePIDTol(50);
 	drive.setTurnPIDVals(5, 0, 20); //5, 0, 20 tuned 4/20/2026
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(0.4);
+	drive.setMaxDriveSpeed(0.6);
 	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
 
-	drive.turnDegreesAbsolute(180);
-	drive.turnDegreesAbsolute(0);
-	drive.turnDegreesAbsolute(45);
-	drive.turnDegreesAbsolute(90);
-	drive.turnDegreesAbsolute(135);
-	drive.turnDegreesAbsolute(180);
-	drive.turnDegreesAbsolute(225);
-	drive.turnDegreesAbsolute(270);
-	drive.turnDegreesAbsolute(315);
-	drive.turnDegreesAbsolute(0);
+	//drive toward loader
+	drive.driveTiles(1050);
+	drive.turnDegreesAbsolute(-90);
 
+	//start getting blocks
 	intakeSlow();
+	drive.driveTiles(-400, 1000);
+	//modify here to get blocks from loader
+	pros::delay(2000);
 
-	// drive.driveTiles(500);
-	// drive.driveTiles(-500);
+	//back away from goal and score on long
+	drive.setMaxDriveSpeed(0.2);
+	drive.driveTiles(500);
+	intakeLiftL.set_value(1);
+	intakeLiftR.set_value(1);
+	drive.turnDegreesAbsolute(-85);
+	drive.driveTiles(800, 1000);
+	scoreTop();
+	//modify delay to score blocks
+	pros::delay(3000);
+	intakeBrake();
 
-	// pros::delay(1000);
-	// drive.driveTiles(500);
-	// drive.driveTiles(-500);
+	//drive back to loader
+	drive.driveTiles(-1000);
+	intakeLiftL.set_value(0);
+	intakeLiftR.set_value(0);
+	intakeSlow();
+	drive.driveTiles(-300, 1000);
+
+	//modify here to get blocks
+	pros::delay(2000);
+	//drive toward center low goal
+	intakeBrake();
+	intakeWheels.move(127);
+	drive.driveTiles(500);
+	drive.turnDegreesAbsolute(50);
+	drive.driveTiles(-1500);
+	drive.turnDegreesAbsolute(42, 800);
+	outTake();
+	drive.driveTiles(-75, 200);
+	pros::delay(2000);
+
+	//back away for match begin
+	intakeBrake();
+	drive.driveTiles(1000);
+
+
 
 	drive.killPIDs();
 
@@ -147,13 +175,25 @@ void opcontrol()
 		// double rightVelocity = ((leftAxisY - rightAxisX));
 
 		// 1 stick arcade
+
+		// Left stick (normal arcade drive)
 		double leftAxisY = MasterController.get_analog(axisLeftY);
 		double leftAxisX = -1 * MasterController.get_analog(axisLeftX);
-		double rightAxisX = MasterController.get_analog(axisRightX);
-		double aimVelocityLeft = (rightAxisX) * 0.06;
-		double aimVelocityRight = -rightAxisX * 0.06;
-		double leftVelocity = 4* ((leftAxisY + leftAxisX + aimVelocityLeft));
-		double rightVelocity = 4* ((leftAxisY - leftAxisX + aimVelocityRight));
+
+		// Right stick (same arcade drive, but Y is flipped)
+		double rightAxisY = -1 * MasterController.get_analog(axisRightY);
+		double rightAxisX = -1 * MasterController.get_analog(axisRightX);
+
+		// Left stick velocities
+		double leftVelocityLeftStick = 4 * (leftAxisY + leftAxisX);
+		double rightVelocityLeftStick = 4 * (leftAxisY - leftAxisX);
+
+		// Right stick velocities
+		double leftVelocityRightStick = 4 * (rightAxisY + rightAxisX);
+		double rightVelocityRightStick = 4 * (rightAxisY - rightAxisX);
+
+		double leftVelocity = leftVelocityLeftStick + leftVelocityRightStick;
+		double rightVelocity = rightVelocityLeftStick + rightVelocityRightStick;
 
 		// Tank
 		// double leftAxisY = MasterController.get_analog(axisLeftY);
@@ -203,15 +243,6 @@ void opcontrol()
 			wing.set_value(togWing);
 		}
 		driveLoop(leftDriveMotors, rightDriveMotors, leftVelocity, rightVelocity);
-
-		// GPS testing
-		double head = gps.get_heading();
-		pros::c::gps_status_s_t test = gps.get_status();
-		double x = test.x;
-		double y = test.y;
-		MasterController.print(0, 0, "%f", head);
-		// MasterController.print(0, 10, "%f", y);
-		MasterController.clear_line(0);
 
 		//*********************************************
 	}
