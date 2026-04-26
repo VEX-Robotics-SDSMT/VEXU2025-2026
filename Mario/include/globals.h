@@ -13,7 +13,7 @@
 #define L_TREAR 5
 #define L_BREAR 3
 #define R_FRONT 9
-#define R_MID 10
+#define R_MID 7
 #define R_TREAR 6
 #define R_BREAR 18
 
@@ -21,6 +21,7 @@
 #define I_TOP 10
 
 #define ARM_MOTOR 2
+#define ARM_MOTOR1 17
 
 #define LIFT 1
 #define LIFT1 2
@@ -49,12 +50,16 @@ extern pros::Motor rightRearBot;
 extern pros::Motor IntakeFront;
 extern pros::Motor IntakeTop;
 extern pros::Motor ArmMotor;
+extern pros::Motor ArmMotor1;
 
 extern std::vector<pros::Motor> leftDriveVector;
 extern std::vector<pros::Motor> rightDriveVector;
+extern std::vector<pros::Motor> intakeMotorVector;
+extern std::vector<pros::Motor> armVetor;
 extern Mines::MinesMotorGroup leftDriveMotors;
 extern Mines::MinesMotorGroup rightDriveMotors;
 extern Mines::MinesMotorGroup intakeMotors;
+extern Mines::MinesMotorGroup armMotors;
 
 extern pros::ADIDigitalOut Arm;
 extern pros::ADIDigitalOut flap;

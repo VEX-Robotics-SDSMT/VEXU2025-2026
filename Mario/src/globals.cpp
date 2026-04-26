@@ -19,7 +19,8 @@ pros::Motor rightRearBot(R_BREAR, pros::E_MOTOR_GEARSET_06, false);
 pros::Motor IntakeFront(I_FRONT, pros::E_MOTOR_GEARSET_18, false);
 pros::Motor IntakeTop(I_TOP, pros::E_MOTOR_GEARSET_06, true);
 
-pros::Motor ArmMotor(ARM_MOTOR, pros::E_MOTOR_GEARSET_18, false);
+pros::Motor ArmMotor(ARM_MOTOR, pros::E_MOTOR_GEARSET_36, false);
+pros::Motor ArmMotor1(ARM_MOTOR1, pros::E_MOTOR_GEARSET_36, true);
 
 
 pros::ADIDigitalOut Arm(ARM);
@@ -30,9 +31,11 @@ pros::ADIDigitalOut flap(FLAP);
 std::vector<pros::Motor> leftDriveVector = {leftFront, leftMid, leftRearTop, leftRearBot};
 std::vector<pros::Motor> rightDriveVector = {rightFront, rightMid, rightRearTop, rightRearBot};
 std::vector<pros::Motor> intakeMotorVector = {IntakeFront, IntakeTop};
+std::vector<pros::Motor> armVector = {ArmMotor, ArmMotor1};
 Mines::MinesMotorGroup leftDriveMotors(leftDriveVector);
 Mines::MinesMotorGroup rightDriveMotors(rightDriveVector);
 Mines::MinesMotorGroup intakeMotors(intakeMotorVector);
+Mines::MinesMotorGroup armMotors(armVector);
 
 double axisPercentBlue = 600.0 / 127;
 double axisPercentGreen = 200.0 / 127;

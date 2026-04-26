@@ -99,45 +99,93 @@ void autonomous()
 
 	//start getting blocks
 	intakeSlow();
-	drive.driveTiles(-400, 1000);
-	//modify here to get blocks from loader
-	pros::delay(2000);
-
-	//back away from goal and score on long
+	drive.driveTiles(-300, 1000);
 	drive.setMaxDriveSpeed(0.2);
+	pros::delay(500);
+	//modify here to get blocks from loader
+	for(int i = 0; i < 1; i++) {
+		drive.turnDegreesAbsolute(-85, 500);
+		drive.driveTiles(100);
+		pros::delay(200);
+		drive.driveTiles(-100);
+		pros::delay(200);
+		// drive.turnDegreesAbsolute(-95, 500);
+		// drive.driveTiles(100);
+		// pros::delay(200);
+		// drive.driveTiles(-100);
+		// pros::delay(200);
+	}
+
+	drive.setMaxDriveSpeed(0.5);
+	pros::delay(1000);
+	
+	//back away from loader and score on long
+	drive.turnDegreesAbsolute(-90, 500);
+
+	//spit out blue balls
+	IntakeBot.move(-127);
+	IntakeRear.move(-127);
+	IntakeTiny.move(-127);
+	intakeWheels.move(-127);
+
+	//score
 	drive.driveTiles(500);
 	intakeLiftL.set_value(1);
 	intakeLiftR.set_value(1);
-	drive.turnDegreesAbsolute(-85);
+	drive.turnDegreesAbsolute(-86);
 	drive.driveTiles(800, 1000);
 	scoreTop();
-	//modify delay to score blocks
-	pros::delay(3000);
-	intakeBrake();
 
+	//modify delay to score blocks
+	pros::delay(1500);
+	outTake();
+	pros::delay(500);
+	scoreTop();
+	pros::delay(1500);
+	intakeBrake();
+	intakeWheels.move(-127);
 	//drive back to loader
-	drive.driveTiles(-1000);
+	drive.driveTiles(-200);
+	drive.turnDegreesAbsolute(-90);
+	drive.driveTiles(-600);
 	intakeLiftL.set_value(0);
 	intakeLiftR.set_value(0);
 	intakeSlow();
 	drive.driveTiles(-300, 1000);
 
 	//modify here to get blocks
-	pros::delay(2000);
+	drive.setMaxDriveSpeed(0.2);
+	pros::delay(500);
+	//modify here to get blocks from loader
+	for(int i = 0; i < 1; i++) {
+		drive.turnDegreesAbsolute(-85, 500);
+		drive.driveTiles(100);
+		pros::delay(200);
+		drive.driveTiles(-100);
+		pros::delay(200);
+		// drive.turnDegreesAbsolute(-95, 500);
+		// drive.driveTiles(100);
+		// pros::delay(200);
+		// drive.driveTiles(-100);
+		// pros::delay(200);
+	}
+	drive.turnDegreesAbsolute(-90, 500);
+
 	//drive toward center low goal
 	intakeBrake();
 	intakeWheels.move(127);
+	IntakeBot.move(127);
 	drive.driveTiles(500);
 	drive.turnDegreesAbsolute(50);
 	drive.driveTiles(-1500);
-	drive.turnDegreesAbsolute(42, 800);
+	drive.turnDegreesAbsolute(38, 800);
 	outTake();
-	drive.driveTiles(-75, 200);
-	pros::delay(2000);
+	drive.driveTiles(-200, 200);
+	pros::delay(1500);
 
 	//back away for match begin
 	intakeBrake();
-	drive.driveTiles(1000);
+	drive.driveTiles(300);
 
 
 

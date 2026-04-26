@@ -29,11 +29,14 @@ void autonomous()
 	LoggerSettings(verbose);
 	drive.setDrivePIDVals(0.18, 0, 0); // tuned 1/11/26
 	drive.setDrivePIDTol(50);
-	drive.setTurnPIDVals(2.8, 0, 0); // tuned 1/11/26
+	drive.setTurnPIDVals(0.4, 0, 0); // tuned 1/11/26
 	drive.setTurnPIDTol(2);
 	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.7);
 	drive.setMaxDriveAccel(0.12);
+
+	drive.turnDegreesAbsolute(180);
+	drive.turnDegreesAbsolute(0);
 
 	drive.killPIDs();
 }

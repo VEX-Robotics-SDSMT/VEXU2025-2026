@@ -121,8 +121,6 @@ void  DiffDrive::turnDegreesAbsolute(double target, bool waitForCompletion)
 */
 void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
 {
-    //pause Drive PID
-    drivePID.SetTaskPaused(true);
     //account for negative angles
     while(target < 0) {
         target += 360;
@@ -138,7 +136,6 @@ void  DiffDrive::turnDegreesAbsolute(double target, int timeOut)
     }
 
     turnPID.SetTarget(getTurnPosition());
-    drivePID.SetTarget(getDrivePosition());
 }
 
 //sets the brake mode of the motors to a different mode
