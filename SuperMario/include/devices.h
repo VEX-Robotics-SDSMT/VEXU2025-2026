@@ -37,9 +37,12 @@ const inline int8_t UL1 = 2;
 const inline int8_t UL2 = 17;
 
 //Pneumatics
-const inline char HOOD_PORT = 'F';
+const inline char HOOD_PORT1 = 'E';
+const inline char HOOD_PORT2IN = 'D';
+const inline char HOOD_PORT2OUT = 'G';
 const inline char ARM_PORT = 'H';
-const inline char LIFT_PORT = 'G';
+const inline char LIFT_PORT1 = 'A';
+const inline char LIFT_PORT2 = 'B';
 
 
 //===============================================
@@ -69,10 +72,12 @@ inline pros::Rotation enc(ENC);
 //===============================================
 //Pneumatics
 //===============================================
-inline pros::adi::Pneumatics hood(HOOD_PORT, false);
+inline pros::adi::Pneumatics hood1(HOOD_PORT1, false);
+inline pros::adi::Pneumatics hood2a(HOOD_PORT2IN, false);
+inline pros::adi::Pneumatics hood2b(HOOD_PORT2OUT, true);
 inline pros::adi::Pneumatics arm(ARM_PORT, false);
-inline pros::adi::Pneumatics lift(LIFT_PORT, false);
-
+inline pros::adi::Pneumatics lift1(LIFT_PORT1, false);
+inline pros::adi::Pneumatics lift2(LIFT_PORT2, false);
 
 //===============================================
 //Drivetrain

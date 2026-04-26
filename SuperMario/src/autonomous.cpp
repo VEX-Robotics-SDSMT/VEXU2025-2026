@@ -23,28 +23,57 @@ void rightRouteSkills(void)
 
 void autonomous() 
 {
-    drive.setDrivePID(0.001, 0.03, 0.001, 20.0);
-    drive.setTurnPID(1.5, 0.000000001, 0, 99999999.0);
-    drive.capVoltage(127);
-    drive.turnTo(90,0.75,200);
-    drive.turnTo(-90,0.75,200);
-    
+    unLoader.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
 
-    switch (selectedRoute)
-    {
-    case RouteType::left:
-        leftAutonRoute();
-        break;
-    case RouteType::right:
-        rightAutonRoute();
-        break;
-    case RouteType::skillsLeft:
-        leftRouteSkills();
-        break;
-    case RouteType::skillsRight:
-        rightRouteSkills();
-        break;
-    default:
-        break;
-    }
+    drive.capVoltage(60);
+
+    drive.setDrivePID(.001, 0.8 , .04, 10.0);
+
+    drive.setTurnPID(1.0, 1, 0, 12.5);
+    
+    drive.driveDistance(-49.38, 5000, 200);
+    drive.turnFor(47.7, 2, 200);
+    drive.driveDistance(-(10.5 - 7.25), 5000, 200);
+
+    leftMotors.brake();
+    rightMotors.brake();
+
+    hood1.toggle();
+    hood2a.toggle();
+    hood2b.toggle();
+
+    intakeMotors.move(127);
+    pros::delay(1500);
+
+    intakeMotors.brake();
+    //hood1.toggle();
+    //hood2a.toggle();
+    //hood2b.toggle();
+
+    drive.driveDistance((10.5 - 7.5), 5000, 200);
+
+    drive.turnFor(75.5, 3, 200);
+    intakeMotors.move(127);
+    drive.driveDistance(17.4, 5000, 200);
+    pros::delay(1500);
+
+    intakeMotors.brake();
+
+    drive.driveDistance(-17.4, 5000, 200);
+    drive.turnFor(-75.5, 3, 200);
+
+    drive.driveDistance(-(10.5 - 7.5), 5000, 200);
+
+    hood1.toggle();
+    hood2a.toggle();
+    hood2b.toggle();
+
+    intakeMotors.move(127);
+    pros::delay(1500);
+
+    intakeMotors.brake();
+    
+    rightMotors.brake();
+    leftMotors.brake();
+    
 }
