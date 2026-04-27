@@ -9,7 +9,7 @@ int32_t mapExponentialTurn(int32_t input)
 {
 	if (input < 0)
     	return -(input * input * input * input)/5000000;
-	if (input > 0)
+	else
 		return (input * input * input * input)/5000000;
 }
 
@@ -53,7 +53,8 @@ void rightArcadeDrive(pros::v5::Controller& controller, const pros::v5::Abstract
 
 void opcontrol() 
 {	
-	unLoader.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
+	rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_COAST);
 	while(true)
 	{
 		
@@ -103,22 +104,6 @@ void opcontrol()
 		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_A))
 		{
 			arm.toggle();
-		}
-
-		if(master.get_digital_new_press(pros::controller_digital_e_t::E_CONTROLLER_DIGITAL_Y))
-		{
-			unLoader.move(-127);
-			leftMotors.move(127);
-			rightMotors.move(127);
-
-			pros::delay(200);
-			
-			unLoader.move(127);
-			pros::delay(200);
-
-			unLoader.brake();
-			leftMotors.brake();
-			rightMotors.brake();
 		}
 
 		pros::delay(20);

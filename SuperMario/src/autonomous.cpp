@@ -23,7 +23,9 @@ void rightRouteSkills(void)
 
 void autonomous() 
 {
-    unLoader.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+    leftMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+	rightMotors.set_brake_mode(pros::E_MOTOR_BRAKE_HOLD);
+
 
     drive.capVoltage(60);
 
@@ -46,21 +48,21 @@ void autonomous()
     pros::delay(1500);
 
     intakeMotors.brake();
-    //hood1.toggle();
-    //hood2a.toggle();
-    //hood2b.toggle();
+    hood1.toggle();
+    hood2a.toggle();
+    hood2b.toggle();
 
     drive.driveDistance((10.5 - 7.5), 5000, 200);
 
-    drive.turnFor(75.5, 3, 200);
+    drive.turnFor(77.5, 3, 200);
     intakeMotors.move(127);
     drive.driveDistance(17.4, 5000, 200);
     pros::delay(1500);
 
     intakeMotors.brake();
 
-    drive.driveDistance(-17.4, 5000, 200);
-    drive.turnFor(-75.5, 3, 200);
+    drive.driveDistance(-15.9, 5000, 200);
+    drive.turnFor(-77.5, 3, 200);
 
     drive.driveDistance(-(10.5 - 7.5), 5000, 200);
 
@@ -72,8 +74,12 @@ void autonomous()
     pros::delay(1500);
 
     intakeMotors.brake();
-    
+
     rightMotors.brake();
     leftMotors.brake();
+
+    hood1.toggle();
+    hood2a.toggle();
+    hood2b.toggle();
     
 }
