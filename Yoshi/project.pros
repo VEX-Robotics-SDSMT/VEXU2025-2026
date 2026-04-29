@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "Yoshi",
+    "project_name": "YOSHI",
     "target": "v5",
     "templates": {
       "kernel": {
@@ -310,7 +310,7 @@
     },
     "upload_options": {
       "icon": "clawbot",
-      "description": "Yoshi",
+      "description": "YOSHI",
       "slot": 1
     }
   }

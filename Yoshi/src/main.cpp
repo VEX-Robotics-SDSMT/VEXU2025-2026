@@ -89,9 +89,11 @@ void autonomous()
 	drive.setDrivePIDTol(50);
 	drive.setTurnPIDVals(5, 0, 20); //5, 0, 20 tuned 4/20/2026
 	drive.setTurnPIDTol(2);
-	drive.setMaxDriveSpeed(0.6);
+	drive.setMaxDriveSpeed(0.4);
 	drive.setMaxTurnSpeed(0.6);
 	drive.setMaxDriveAccel(0.12);
+
+	pros::delay(1000);
 
 	//drive toward loader
 	drive.driveTiles(1050);
@@ -132,26 +134,31 @@ void autonomous()
 	drive.driveTiles(500);
 	intakeLiftL.set_value(1);
 	intakeLiftR.set_value(1);
-	drive.turnDegreesAbsolute(-86);
+	drive.turnDegreesAbsolute(-83);
 	drive.driveTiles(800, 1000);
 	scoreTop();
 
 	//modify delay to score blocks
-	pros::delay(1500);
+	pros::delay(1800);
 	outTake();
-	pros::delay(500);
+	pros::delay(200);
 	scoreTop();
-	pros::delay(1500);
+	pros::delay(1800);
+	outTake();
+	pros::delay(200);
+	scoreTop();
+	pros::delay(800);
 	intakeBrake();
 	intakeWheels.move(-127);
+
 	//drive back to loader
 	drive.driveTiles(-200);
 	drive.turnDegreesAbsolute(-90);
-	drive.driveTiles(-600);
+	drive.driveTiles(-300);
 	intakeLiftL.set_value(0);
 	intakeLiftR.set_value(0);
 	intakeSlow();
-	drive.driveTiles(-300, 1000);
+	drive.driveTiles(-600, 1000);
 
 	//modify here to get blocks
 	drive.setMaxDriveSpeed(0.2);
@@ -170,28 +177,28 @@ void autonomous()
 		// pros::delay(200);
 	}
 	drive.turnDegreesAbsolute(-90, 500);
-
-	//drive toward center low goal
-	intakeBrake();
-	intakeWheels.move(127);
-	IntakeBot.move(127);
+	drive.setMaxDriveSpeed(0.5);
+	//score
 	drive.driveTiles(500);
-	drive.turnDegreesAbsolute(50);
-	drive.driveTiles(-1500);
-	drive.turnDegreesAbsolute(38, 800);
+	intakeLiftL.set_value(1);
+	intakeLiftR.set_value(1);
+	drive.turnDegreesAbsolute(-86);
+	drive.driveTiles(800, 1000);
+	scoreTop();
+
+	//modify delay to score blocks
+	pros::delay(1000);
 	outTake();
-	drive.driveTiles(-200, 200);
-	pros::delay(1500);
-
-	//back away for match begin
+	pros::delay(200);
+	scoreTop();
+	pros::delay(1400);
+	outTake();
+	pros::delay(200);
 	intakeBrake();
-	drive.driveTiles(300);
-
-
 
 	drive.killPIDs();
-
-	
+	//back away for match begin
+	intakeBrake();
 }
 
 /**

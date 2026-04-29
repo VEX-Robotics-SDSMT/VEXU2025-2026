@@ -39,7 +39,7 @@ void intakeSlow() {
     IntakeTop.move(80);
     IntakeRear.move(80);
     intakeWheels.move(127);
-    IntakeScore.move(-50);
+    IntakeScore.move(-90);
     IntakeTiny.move(127);
 }
 
